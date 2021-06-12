@@ -4,17 +4,24 @@ import React from 'react';
 class Confirm extends React.Component {
 
     render() {
+
+        const {
+            onHide,
+            onRemoveProject,
+            show
+        } = this.props;
+
         return (
-            <Modal show={true} onHide={this.props.onHide}>
+            <Modal show={show} onHide={onHide}>
                 <Modal.Header closeButton>Are you sure ?</Modal.Header>
                 <div className="p-3 d-flex justify-content-end">
-                    <Button variant="secondary" onClick={this.props.onHide}>
+                    <Button variant="secondary" onClick={onHide}>
                         Close
                     </Button>
                     <Button
                         variant="info"
                         className="ml-2"
-                        onClick={this.props.onRemoveProject}>
+                        onClick={onRemoveProject}>
                         Confirm
                     </Button>
                 </div>

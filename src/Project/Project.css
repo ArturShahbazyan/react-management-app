@@ -1,23 +1,20 @@
-.DashedTile.DashedTile--large .DashedTile-outer {
-    stroke-dasharray: 10.0605,5.0302;
-    cursor: pointer;
-}
-.FlowPickerTile-dashedTile .DashedTile-outer {
-    stroke: #9ca6af;
-    transition: 200ms fill,200ms stroke;
-}
-.DashedTile .DashedTile-outer {
-    fill: transparent;
-    stroke: #6f7782;
-    transition: 200ms fill,200ms stroke;
-}
-
 .TileStructure-children {
     height: 120px;
     width: 120px;
+    cursor:pointer;
+    padding: 5px 0;
+    transition-duration: .4s;
+}
+
+.TileStructure-children:hover {
+    padding: 0px 0;
 }
 
 .project {
     margin-left: 300px;
     margin-top: 60px;
 }
+
+
+
+

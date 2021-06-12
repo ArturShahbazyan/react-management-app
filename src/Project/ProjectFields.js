@@ -49,14 +49,17 @@ class ProjectFields extends React.Component {
                     <Form.Group controlId="formBasicProjectSummary">
                         <Form.Control type="text" placeholder="Project Summary" name="projectSummary" value={projectSummary} onChange={this.handleChange} />
                     </Form.Group>
-                    <Button variant="secondary" type="submit" onClick={this.handleSubmit}>
+                    <Button variant="secondary"
+                            type="submit"
+                            onClick={this.handleSubmit}
+                            disabled={!(!!projectName && !!projectSummary)}
+                    >
                         Create Project
                     </Button>
                 </div>
             </div>
         );
     }
-
 }
 
 export default ProjectFields;
