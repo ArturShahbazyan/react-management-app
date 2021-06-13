@@ -1,12 +1,12 @@
 import './App.css';
-import SideBar from "./SideBar/SideBar";
+import SideBar from "./components/SideBar/SideBar";
 import {Switch, Route} from 'react-router-dom';
-import Project from "./Project/Project";
+import Project from "./components/Project/Project";
 
 function App() {
   return (
     <div className="App">
-        <>
+        <div>
                 <SideBar />
                 <Switch>
                     <Route path='/' exact />
@@ -14,7 +14,7 @@ function App() {
                     <Route path='/products'  />
                 </Switch>
                <Project/>
-        </>
+        </div>
     </div>
   );
 }

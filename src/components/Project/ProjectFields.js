@@ -19,6 +19,7 @@ class ProjectFields extends React.Component {
     handleChange = (e) => {
         const {name, value} = e.target;
         this.setState({
+            ...this.state,
             [name]: value
         })
     }
@@ -37,6 +38,7 @@ class ProjectFields extends React.Component {
         if (this.props.editableProject !== prevProps.editableProject) {
             if (!this.props.editableProject) {
                 this.setState({
+                    ...this.state,
                     id: "",
                     projectName: "",
                     projectSummary: "",
@@ -44,14 +46,15 @@ class ProjectFields extends React.Component {
                 })
             } else {
                 this.setState({
+                    ...this.state,
                     ...this.props.editableProject
                 })
             }
         }
-
     }
 
     render() {
+
         const {projectName, projectSummary} = this.state;
         const {editableProject} = this.props;
 

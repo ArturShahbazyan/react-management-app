@@ -1,8 +1,8 @@
 import React from 'react';
 import {Container, Row, Col} from 'react-bootstrap';
 import styles from "./project.module.css";
-import dashedTile from "../assets/images/dashedTile.svg";
-import idGenerator from '../helpers/idGenerator';
+import dashedTile from "../../assets/images/dashedTile.svg";
+import idGenerator from '../../helpers/idGenerator';
 import ProjectFields from "./ProjectFields";
 import SingleProject from "./SingleProject";
 import Confirm from "../Confirm/Confirm";
@@ -59,8 +59,8 @@ class Project extends React.Component {
 
         this.setState({
             ...this.state,
-            projects,
-            isAddProject: false
+            isAddProject: false,
+            projects
         })
     }
 
@@ -70,6 +70,7 @@ class Project extends React.Component {
         const {isOpenConfirm} = this.state;
 
         this.setState({
+            ...this.state,
             isOpenConfirm: !isOpenConfirm,
             removableProjectId: id
         });
@@ -95,7 +96,6 @@ class Project extends React.Component {
     }
 
     projectList = () => (
-
         this.state.projects.map((project) => {
             return (
                 <Col key={project.id}
@@ -138,7 +138,6 @@ class Project extends React.Component {
         const { isOpenConfirm, editableProject, isAddProject } = this.state;
 
         return (
-
             <div className={styles.project}>
                 <Container>
                     <Row>

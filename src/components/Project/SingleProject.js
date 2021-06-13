@@ -16,13 +16,13 @@ class SingleProject extends React.Component {
         return (
 
             <div className="singleProject">
-                <Card className="project-card">
+                <Card className="projectCard">
                     <FontAwesomeIcon icon={faThList} className="faThList"/>
                     <Card.Body className="d-flex flex-column">
                         <Card.Title>{project.projectName}</Card.Title>
                         <Card.Text>{project.projectSummary}</Card.Text>
                         <div>{project.date.toISOString().slice(0, 10)}</div>
-                        <div className="fa-row">
+                        <div className="faRow">
                             <div className="mr-3">
                                 <FontAwesomeIcon icon={faTrash}
                                                  className="faTrash"
