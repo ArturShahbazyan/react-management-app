@@ -6,10 +6,12 @@ import {faTrash, faEdit, faThList} from '@fortawesome/free-solid-svg-icons';
 
 class SingleProject extends React.Component {
 
-
     render() {
 
-        const {project, handleRemovableProject} = this.props;
+        const {project,
+            handleRemovableProject,
+            handleEditableProject
+        } = this.props;
 
         return (
 
@@ -29,7 +31,11 @@ class SingleProject extends React.Component {
                                 />
                             </div>
                             <div>
-                                <FontAwesomeIcon icon={faEdit} className="faEdit"/>
+                                <FontAwesomeIcon icon={faEdit}
+                                                 className="faEdit"
+                                                 onClick={() =>
+                                                     handleEditableProject(project)}
+                                />
                             </div>
                         </div>
                     </Card.Body>

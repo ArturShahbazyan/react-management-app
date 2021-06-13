@@ -51,20 +51,20 @@ class SideBar extends React.Component {
         return (
             <div>
                 <div className={style.navbar} onClick={this.showSidebar}>
-                    <Link to='#' className={style.menu_bars}>
+                    <Link to='#' className={style.menuBars}>
                         <FontAwesomeIcon icon={faAlignLeft}/>
                     </Link>
                 </div>
-                <nav className={`${style.nav_menu} ${sidebar ? style.active : ""}`}>
-                <ul className={style.nav_menu_items} onClick={this.showSidebar}>
-                        <li className={style.navbar_toggle}>
-                            <Link to='#' className={style.menu_bars}>
+                <nav className={`${style.navMenu} ${sidebar ? style.active : ""}`}>
+                <ul className={style.navMenuItems} onClick={this.showSidebar}>
+                        <li className={style.navbarToggle}>
+                            <Link to='#' className={style.menuBars}>
                                 <FontAwesomeIcon icon={faTimes}/>
                             </Link>
                         </li>
                         {sidebarList.map((item, index) => {
                             return (
-                                <li key={index} className={style.nav_text}>
+                                <li key={index} className={style.navText}>
                                     <Link to={item.path}>
                                         {item.icon}
                                         <span>{item.title}</span>
@@ -77,7 +77,6 @@ class SideBar extends React.Component {
             </div>
         );
     }
-
 }
 
 export default SideBar;

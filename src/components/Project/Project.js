@@ -1,6 +1,6 @@
 import React from 'react';
 import {Container, Row, Col} from 'react-bootstrap';
-import "./Project.css";
+import styles from "./project.module.css";
 import dashedTile from "../assets/images/dashedTile.svg";
 import idGenerator from '../helpers/idGenerator';
 import ProjectFields from "./ProjectFields";
@@ -16,23 +16,24 @@ class Project extends React.Component {
             isAddProject: false,
             removableProjectId: "",
             isOpenConfirm: false,
+            editableProject: null,
             projects: [
                 {
                     id: idGenerator(),
-                    projectName: "My Project",
-                    projectSummary: "Business project",
+                    projectName: "Project 1",
+                    projectSummary: "Business project 1",
                     date: new Date()
                 },
                 {
                     id: idGenerator(),
-                    projectName: "My Project",
-                    projectSummary: "Business project",
+                    projectName: "Project 2",
+                    projectSummary: "Business project 2",
                     date: new Date()
                 },
                 {
                     id: idGenerator(),
-                    projectName: "My Project",
-                    projectSummary: "Business project",
+                    projectName: "Project 3",
+                    projectSummary: "Business project 3",
                     date: new Date()
                 }
             ]
@@ -42,7 +43,8 @@ class Project extends React.Component {
     toggleProjectFields = () => {
         this.setState({
             ...this.state,
-            isAddProject: true
+            isAddProject: true,
+            editableProject: null
         })
     }
 
@@ -93,6 +95,7 @@ class Project extends React.Component {
     }
 
     projectList = () => (
+
         this.state.projects.map((project) => {
             return (
                 <Col key={project.id}
@@ -104,24 +107,44 @@ class Project extends React.Component {
                     <SingleProject
                         project={project}
                         handleRemovableProject={this.setRemovableProject}
+                        handleEditableProject={this.handleEditableProject}
                     />
                 </Col>
             )
         })
     )
 
+    handleEditableProject = (editableProject) => {
+        this.setState({
+            ...this.state,
+            editableProject
+        })
+    }
+
+    editProject = (projectData) => {
+        let projects = [...this.state.projects];
+        const idx = projects.findIndex((project) => project.id === projectData.id);
+        projects[idx] = projectData;
+
+        this.setState({
+            ...this.state,
+            editableProject: null,
+            projects,
+        })
+}
+
     render() {
 
-        const { isOpenConfirm } = this.state;
+        const { isOpenConfirm, editableProject, isAddProject } = this.state;
 
         return (
 
-            <div className="project">
+            <div className={styles.project}>
                 <Container>
                     <Row>
-                        <Col md={3} className="">
-                            <div className="TileStructure">
-                                <div className="TileStructure-children"
+                        <Col md={3}>
+                            <div className={styles.tileStructure}>
+                                <div className={styles.tileStructureChildren}
                                      onClick={this.toggleProjectFields}
                                 >
                                     <img src={dashedTile} alt="Dashed Tile"/>
@@ -131,8 +154,9 @@ class Project extends React.Component {
                         </Col>
                         <Col md={5}>
                             {
-                                this.state.isAddProject && <ProjectFields
-                                    onSubmit={this.addProject}
+                                (isAddProject || editableProject) && <ProjectFields
+                                     editableProject={editableProject}
+                                     onSubmit={editableProject ? this.editProject : this.addProject}
                                 />
                             }
                         </Col>
@@ -147,7 +171,7 @@ class Project extends React.Component {
                 </Container>
                 {
                     isOpenConfirm && <Confirm
-                         onHide={this.toggleConfirmModal}
+                        onHide={this.toggleConfirmModal}
                         onRemoveProject={this.removeProject}
                         show={isOpenConfirm}
                     />
