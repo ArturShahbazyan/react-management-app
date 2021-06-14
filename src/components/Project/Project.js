@@ -160,7 +160,7 @@ class Project extends React.Component {
                             }
                         </Col>
                     </Row>
-                    <Row className="mt-5">
+                    <Row className="mt-4">
                         <Col md={12}>
                             <h2 className="mb-5">Projects</h2>
                             <hr/>
