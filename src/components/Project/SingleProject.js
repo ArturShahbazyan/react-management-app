@@ -5,30 +5,35 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash, faEdit, faThList } from '@fortawesome/free-solid-svg-icons';
 
 class SingleProject extends React.Component {
-
     handleRemove = () => {
 
-        const { project, handleRemovableProject } = this.props;
+        const {
+            project,
+            handleRemovableProject
+        } = this.props;
 
-        handleRemovableProject(project.id);
+        handleRemovableProject(project.id)
     }
 
     handleEdit = () => {
 
-        const { project, handleEditableProject } = this.props;
+        const {
+            project,
+            handleEditableProject
+        } = this.props;
 
-		handleEditableProject(project.id);
+        handleEditableProject(project);
     }
 
     render(){
 
-        const { project } = this.props;
+        const { project, handleEditableProject } = this.props;
 
         return (
 
             <div>
                 <Card className={ style[ "project-card" ] }>
-                    <FontAwesomeIcon icon={ faThList } className={ style[ "fa-thList" ] }/>
+                    <FontAwesomeIcon icon={ faThList } className={ style[ "fa-th-list" ] }/>
                     <Card.Body className="d-flex flex-column">
                         <Card.Title>{ project.projectName }</Card.Title>
                         <Card.Text>{ project.projectSummary }</Card.Text>
@@ -52,6 +57,7 @@ class SingleProject extends React.Component {
             </div>
         );
     }
+
 }
 
 export default SingleProject;

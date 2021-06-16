@@ -3,83 +3,83 @@ import { Link } from "react-router-dom";
 import style from "./sidebar.module.css";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
-	faTimes,
-	faAlignLeft,
-	faHome,
-	faProjectDiagram,
-	faInfoCircle
+    faTimes,
+    faAlignLeft,
+    faHome,
+    faProjectDiagram,
+    faInfoCircle
 } from '@fortawesome/free-solid-svg-icons';
 
+
 const sidebarList = [
-	{
-		title: 'Home',
-		path: '/',
-		icon: <FontAwesomeIcon icon={ faHome }/>,
-	},
-	{
-		title: 'Projects',
-		path: '/reports',
-		icon: <FontAwesomeIcon icon={ faProjectDiagram }/>,
-	},
-	{
-		title: 'Support',
-		path: '/support',
-		icon: <FontAwesomeIcon icon={ faInfoCircle }/>
-	}
+    {
+        title:'Home',
+        path:'/',
+        icon:<FontAwesomeIcon icon={ faHome }/>,
+    },
+    {
+        title:'Projects',
+        path:'/reports',
+        icon:<FontAwesomeIcon icon={ faProjectDiagram }/>,
+    },
+    {
+        title:'Support',
+        path:'/support',
+        icon:<FontAwesomeIcon icon={ faInfoCircle }/>
+    }
 ];
 
 
 class SideBar extends React.Component {
-	constructor(props){
-		super(props);
+    constructor(props){
+        super(props);
 
-		this.state = {
-			sidebar: false
-		}
-	}
+        this.state = {
+            sidebar:false
+        }
+    }
 
-	showSidebar = () => {
-		this.setState({
-			...this.state,
-			sidebar: !this.state.sidebar
-		})
-	}
+    showSidebar = () => {
+        this.setState({
+            sidebar:!this.state.sidebar
+        })
+    }
 
-	render(){
+    render(){
 
-		const { sidebar } = this.state;
+        const { sidebar } = this.state;
 
-		return (
-			<div>
-				<div className={ style.navbar } onClick={ this.showSidebar }>
-					<Link to='#' className={ style["menu-bars"] }>
-						<FontAwesomeIcon icon={ faAlignLeft }/>
-					</Link>
-				</div>
-				<nav className={ `${ style["nav-menu"] } ${ sidebar ? style.active : "" }` }>
-					<ul className={ style["nav-menu-items"] } onClick={ this.showSidebar }>
-						<li className={ style["navbar-toggle"] }>
-							<Link to='#' className={ style["menu-bars"] }>
-								<FontAwesomeIcon icon={ faTimes }/>
-							</Link>
-						</li>
-						{
-							sidebarList.map((item, index) => {
-								return (
-									<li key={ index } className={ style["nav-text"] }>
-										<Link to={ item.path }>
-											{ item.icon }
-											<span>{ item.title }</span>
-										</Link>
-									</li>
-								);
-							})
-						}
-					</ul>
-				</nav>
-			</div>
-		);
-	}
+        return (
+            <div>
+                <div className={ style.navbar } onClick={ this.showSidebar }>
+                    <Link to='#' className={ style[ "menu-bars" ] }>
+                        <FontAwesomeIcon icon={ faAlignLeft }/>
+                    </Link>
+                </div>
+                <nav className={ `${ style["nav-menu"] } ${ sidebar ? style.active : "" }` }>
+                    <ul className={ style[ "nav-menu-items" ] } onClick={ this.showSidebar }>
+                        <li className={ style[ "navbar-toggle" ] }>
+                            <Link to='#' className={ style[ "menu-bars" ] }>
+                                <FontAwesomeIcon icon={ faTimes }/>
+                            </Link>
+                        </li>
+                        {
+                            sidebarList.map((item, index) => {
+                                return (
+                                    <li key={ index } className={ style[ "nav-text" ] }>
+                                        <Link to={ item.path }>
+                                            { item.icon }
+                                            <span>{ item.title }</span>
+                                        </Link>
+                                    </li>
+                                );
+                            })
+                        }
+                    </ul>
+                </nav>
+            </div>
+        );
+    }
 }
 
 export default SideBar;
