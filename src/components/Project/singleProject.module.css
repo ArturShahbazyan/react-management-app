@@ -1,36 +1,36 @@
-.faRow {
-    font-size: 25px;
-    display: flex;
-    justify-content: center;
-    cursor: pointer;
-    margin: 15px;
+.fa-row {
+  font-size: 25px;
+  display: flex;
+  justify-content: center;
+  cursor: pointer;
+  margin: 15px;
 }
 
-.faTrash {
-    color: #f8096b;
-    margin-right: 15px;
+.fa-trash {
+  color: #f8096b;
+  margin-right: 15px;
 }
 
-.faTrash:hover {
-    color: #e17f9f;
+.fa-trash:hover {
+  color: #e17f9f;
 }
 
-.faEdit {
-    color: #30caca;
+.fa-edit {
+  color: #30caca;
 }
 
-.faEdit:hover {
-    color: #95dada;
+.fa-edit:hover {
+  color: #95dada;
 }
 
-.faThList {
-    font-size: 15px;
-    color: #00c4ff;
-    margin-left: 5px;
-    margin-top: 5px;
+.fa-thList {
+  font-size: 15px;
+  color: #00c4ff;
+  margin-left: 5px;
+  margin-top: 5px;
 }
 
-.projectCard {
-    width: 250px;
-    background: #e6ecec;
+.project-card {
+  width: 250px;
+  background: #e6ecec;
 }

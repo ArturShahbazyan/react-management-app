@@ -1,40 +1,49 @@
 import React from 'react';
 import style from "./singleProject.module.css";
-import {Card} from 'react-bootstrap';
-import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
-import {faTrash, faEdit, faThList} from '@fortawesome/free-solid-svg-icons';
+import { Card } from 'react-bootstrap';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTrash, faEdit, faThList } from '@fortawesome/free-solid-svg-icons';
 
 class SingleProject extends React.Component {
 
-    render() {
+    handleRemove = () => {
 
-        const {project,
-            handleRemovableProject,
-            handleEditableProject
-        } = this.props;
+        const { project, handleRemovableProject } = this.props;
+
+        handleRemovableProject(project.id);
+    }
+
+    handleEdit = () => {
+
+        const { project, handleEditableProject } = this.props;
+
+		handleEditableProject(project.id);
+    }
+
+    render(){
+
+        const { project } = this.props;
 
         return (
 
             <div>
-                <Card className={style.projectCard}>
-                    <FontAwesomeIcon icon={faThList} className={style.faThList}/>
+                <Card className={ style[ "project-card" ] }>
+                    <FontAwesomeIcon icon={ faThList } className={ style[ "fa-thList" ] }/>
                     <Card.Body className="d-flex flex-column">
-                        <Card.Title>{project.projectName}</Card.Title>
-                        <Card.Text>{project.projectSummary}</Card.Text>
-                        <div>{project.date.toISOString().slice(0, 10)}</div>
-                        <div className={style.faRow}>
+                        <Card.Title>{ project.projectName }</Card.Title>
+                        <Card.Text>{ project.projectSummary }</Card.Text>
+                        <div>{ project.date.toISOString().slice(0, 10) }</div>
+                        <div className={ style[ "fa-row" ] }>
                             <div className="mr-3">
-                                <FontAwesomeIcon icon={faTrash}
-                                                 className={style.faTrash}
-                                                 onClick={() =>
-                                                     handleRemovableProject(project.id)}
+                                <FontAwesomeIcon icon={ faTrash }
+                                                 className={ style[ "fa-trash" ] }
+                                                 onClick={ this.handleRemove }
                                 />
                             </div>
                             <div>
-                                <FontAwesomeIcon icon={faEdit}
-                                                 className={style.faEdit}
-                                                 onClick={() =>
-                                                     handleEditableProject(project)}
+                                <FontAwesomeIcon icon={ faEdit }
+                                                 className={ style[ "fa-edit" ] }
+                                                 onClick={ this.handleEdit }
                                 />
                             </div>
                         </div>
@@ -43,7 +52,6 @@ class SingleProject extends React.Component {
             </div>
         );
     }
-
 }
 
 export default SingleProject;
