@@ -1,88 +1,72 @@
-import React from 'react';
-import {Button, Form} from "react-bootstrap";
+import React, { useEffect, useState } from 'react';
+import { Button, Form } from "react-bootstrap";
+import idGenerator from "../../helpers/idGenerator";
 
 
-class ProjectFields extends React.Component {
-    constructor(props) {
-        super(props);
+const ProjectFields = ({ editableProject, onSubmit }) => {
 
-        this.state = {
-            id: "",
-            projectName: "",
-            projectSummary: "",
-            date: new Date(),
-            ...props.editableProject
-        }
-    }
+    const [fieldsState, setFieldsState] = useState({
+        projectName:"",
+        projectSummary:"",
+        date:new Date()
+    })
 
+    const handleChange = (e) => {
 
-    handleChange = (e) => {
+        const { name, value } = e.target;
 
-        const {name, value} = e.target;
-
-        this.setState({
-            ...this.state,
-            [name]: value
+        setFieldsState({
+            ...fieldsState,
+            [ name ]:value
         })
     }
 
-    handleSubmit = () => {
+    const handleSubmit = (e) => {
 
-        const {onSubmit, editableProject} = this.props;
-        const {projectName, projectSummary, date} = this.state;
+        e.preventDefault();
 
-        editableProject ? onSubmit(this.state) : onSubmit({projectName, projectSummary, date});
+        editableProject ? onSubmit(fieldsState) : onSubmit({ id:idGenerator(), ...fieldsState });
     }
 
-
-    componentDidUpdate(prevProps) {
-        if (this.props.editableProject !== prevProps.editableProject) {
-            if (!this.props.editableProject) {
-                this.setState({
-                    ...this.state,
-                    id: "",
-                    projectName: "",
-                    projectSummary: "",
-                    date: new Date(),
-                })
-            } else {
-                this.setState({
-                    ...this.state,
-                    ...this.props.editableProject
-                })
-            }
+    useEffect(() => {
+        if(editableProject){
+            setFieldsState({
+                ...editableProject
+            });
+        } else {
+            setFieldsState({
+                projectName:"",
+                projectSummary:"",
+                date:new Date()
+            });
         }
-    }
+    }, [editableProject])
 
-    render() {
+    const { projectName, projectSummary } = fieldsState;
 
-        const {projectName, projectSummary} = this.state;
-        const {editableProject} = this.props;
-
-        return (
-            <div className="projectFields">
-                <Form>
-                    <Form.Group controlId="formBasicProjectName">
-                        <Form.Control type="text" placeholder="Project Name" name="projectName" value={projectName}
-                                      onChange={this.handleChange}/>
-                    </Form.Group>
-                    <Form.Group controlId="formBasicProjectSummary">
-                        <Form.Control type="text" placeholder="Project Summary" name="projectSummary"
-                                      value={projectSummary} onChange={this.handleChange}/>
-                    </Form.Group>
-                    <Button variant="secondary"
-                            type="submit"
-                            onClick={this.handleSubmit}
-                            disabled={!(!!projectName && !!projectSummary)}
-                    >
-                        {
-                            editableProject ? "Edit Project" : "Create Project"
-                        }
-                    </Button>
-                </Form>
-            </div>
-        );
-    }
+    return (
+        <div className="projectFields">
+            <Form>
+                <Form.Group controlId="formBasicProjectName">
+                    <Form.Control type="text" placeholder="Project Name" name="projectName" value={ projectName }
+                                  onChange={ handleChange }/>
+                </Form.Group>
+                <Form.Group controlId="formBasicProjectSummary">
+                    <Form.Control type="text" placeholder="Project Summary" name="projectSummary"
+                                  value={ projectSummary } onChange={ handleChange }/>
+                </Form.Group>
+                <Button variant="secondary"
+                        type="submit"
+                        onClick={ handleSubmit }
+                        disabled={ !(!!projectName && !!projectSummary) }
+                >
+                    {
+                        editableProject ? "Edit Project" : "Create Project"
+                    }
+                </Button>
+            </Form>
+        </div>
+    );
 }
 
 export default ProjectFields;

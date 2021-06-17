@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from "react-router-dom";
 import style from "./sidebar.module.css";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -30,34 +30,23 @@ const sidebarList = [
 ];
 
 
-class SideBar extends React.Component {
-    constructor(props){
-        super(props);
+const SideBar = () => {
 
-        this.state = {
-            sidebar:false
-        }
+    const [isSidebarOpen, setSidebar] = useState(false);
+
+    const showSidebar = () => {
+        setSidebar(!isSidebarOpen);
     }
-
-    showSidebar = () => {
-        this.setState({
-            sidebar:!this.state.sidebar
-        })
-    }
-
-    render(){
-
-        const { sidebar } = this.state;
 
         return (
             <div>
-                <div className={ style.navbar } onClick={ this.showSidebar }>
+                <div className={ style.navbar } onClick={ showSidebar }>
                     <Link to='#' className={ style[ "menu-bars" ] }>
                         <FontAwesomeIcon icon={ faAlignLeft }/>
                     </Link>
                 </div>
-                <nav className={ `${ style["nav-menu"] } ${ sidebar ? style.active : "" }` }>
-                    <ul className={ style[ "nav-menu-items" ] } onClick={ this.showSidebar }>
+                <nav className={ `${ style[ "nav-menu" ] } ${ isSidebarOpen ? style.active : "" }` }>
+                    <ul className={ style[ "nav-menu-items" ] } onClick={ showSidebar }>
                         <li className={ style[ "navbar-toggle" ] }>
                             <Link to='#' className={ style[ "menu-bars" ] }>
                                 <FontAwesomeIcon icon={ faTimes }/>
@@ -79,7 +68,6 @@ class SideBar extends React.Component {
                 </nav>
             </div>
         );
-    }
 }
 
 export default SideBar;
