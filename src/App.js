@@ -1,22 +1,22 @@
 import './App.css';
 import SideBar from "./components/SideBar/SideBar";
-import {Switch, Route} from 'react-router-dom';
+import { Switch, Route } from 'react-router-dom';
 import Project from "./components/Project/Project";
 
 function App() {
-  return (
-    <div className="App">
-        <div>
-                <SideBar />
+    return (
+        <div className="App">
+            <div>
+                <SideBar/>
                 <Switch>
-                    <Route path='/' exact />
+                    <Route path='/' exact/>
                     <Route path='/reports'/>
-                    <Route path='/products'  />
+                    <Route path='/products'/>
                 </Switch>
-               <Project/>
+                <Project/>
+            </div>
         </div>
-    </div>
-  );
+    );
 }
 
 export default App;

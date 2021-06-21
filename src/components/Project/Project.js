@@ -1,94 +1,89 @@
 import React, { useState } from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
-import styles from "./project.module.css";
-import dashedTile from "../../assets/images/dashedTile.svg";
+import styles from './project.module.css';
+import dashedTile from '../../assets/images/dashedTile.svg';
 import idGenerator from '../../helpers/idGenerator';
-import ProjectFields from "./ProjectFields";
-import SingleProject from "./SingleProject";
-import Confirm from "../Confirm/Confirm";
-
+import ProjectFields from './ProjectFields';
+import SingleProject from './SingleProject';
+import Confirm from '../Confirm/Confirm';
 
 const Project = () => {
-
     const [isAddProject, setAddProject] = useState(false);
     const [editableProject, setEditableProject] = useState(null);
-    const [removableProjectId, setRemovableProjectId] = useState("null");
+    const [removableProjectId, setRemovableProjectId] = useState('null');
     const [isOpenConfirm, setOpenConfirm] = useState(false);
     const [projects, setProjects] = useState(
         [
             {
-                id:idGenerator(),
-                projectName:"Project 1",
-                projectSummary:"Business project 1",
-                date:new Date()
+                id: idGenerator(),
+                projectName: 'Project 1',
+                projectSummary: 'Business project 1',
+                date: new Date(),
             },
             {
-                id:idGenerator(),
-                projectName:"Project 2",
-                projectSummary:"Business project 2",
-                date:new Date()
+                id: idGenerator(),
+                projectName: 'Project 2',
+                projectSummary: 'Business project 2',
+                date: new Date(),
             },
             {
-                id:idGenerator(),
-                projectName:"Project 3",
-                projectSummary:"Business project 3",
-                date:new Date()
-            }
-        ]
+                id: idGenerator(),
+                projectName: 'Project 3',
+                projectSummary: 'Business project 3',
+                date: new Date(),
+            },
+        ],
     );
 
     const toggleProjectFields = () => {
         setAddProject(true);
         setEditableProject(null);
-    }
+    };
 
     const addProject = (formData) => {
-
-        const newProjects = [...projects];
-
-        newProjects.push({ ...formData });
+        const newProjects = [...projects, { ...formData, },];
 
         setAddProject(false);
         setProjects(newProjects);
-    }
+    };
 
     const setRemovableProject = (id) => {
         setOpenConfirm(!isOpenConfirm);
         setRemovableProjectId(id);
         setEditableProject(null);
         setAddProject(false);
-    }
+    };
 
     const toggleConfirmModal = () => {
         setOpenConfirm(!isOpenConfirm);
-        setRemovableProjectId("");
-    }
+        setRemovableProjectId('');
+    };
 
     const removeProject = () => {
-
         let newProjects = [...projects].filter((project) =>
             project.id !== removableProjectId);
 
         setOpenConfirm(!isOpenConfirm);
         setProjects(newProjects);
 
-    }
+    };
 
     const handleEditableProject = (editableProject) => {
-        setEditableProject(editableProject)
-    }
+        setEditableProject(editableProject);
+    };
 
     const editProject = (projectData) => {
+        const newProjects = projects.map((project) => {
+            if (project.id !== projectData.id) return project;
 
-        let newProjects = [...projects];
-        const idx = newProjects.findIndex((project) => project.id === projectData.id);
-        newProjects[ idx ] = projectData;
+            return { ...projectData };
+        });
 
         setAddProject(false);
         setEditableProject(null);
         setProjects(newProjects);
 
-    }
+    };
 
     const projectList = () => (
         projects.map((project) => {
@@ -105,7 +100,7 @@ const Project = () => {
                         handleEditableProject={ handleEditableProject }
                     />
                 </Col>
-            )
+            );
         })
     );
 
@@ -114,8 +109,8 @@ const Project = () => {
             <Container>
                 <Row>
                     <Col md={ 3 }>
-                        <div className={ styles[ "tile-structure" ] }>
-                            <div className={ styles[ "tile-structure-children" ] }
+                        <div className={ styles["tile-structure"] }>
+                            <div className={ styles["tile-structure-children"] }
                                  onClick={ toggleProjectFields }
                             >
                                 <img src={ dashedTile } alt="Dashed Tile"/>
@@ -149,6 +144,6 @@ const Project = () => {
             }
         </div>
     );
-}
+};
 
 export default Project;
