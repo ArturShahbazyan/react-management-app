@@ -1,4 +1,3 @@
-import React, { useState } from 'react';
 import { Link } from "react-router-dom";
 import style from "./sidebar.module.css";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -9,17 +8,14 @@ import {
     faProjectDiagram,
     faInfoCircle,
 } from '@fortawesome/free-solid-svg-icons';
+import { useDispatch, useSelector } from "react-redux";
+import { TOGGLE_SIDEBAR } from "../../redux/actions/types";
 
 
 const sidebarList = [
     {
-        title: 'Home',
-        path: '/',
-        icon: <FontAwesomeIcon icon={ faHome }/>,
-    },
-    {
         title: 'Projects',
-        path: '/reports',
+        path: '/projects',
         icon: <FontAwesomeIcon icon={ faProjectDiagram }/>,
     },
     {
@@ -30,21 +26,19 @@ const sidebarList = [
 ];
 
 const SideBar = () => {
-    const [isSidebarOpen, setSidebar] = useState(false);
-
-    const showSidebar = () => {
-        setSidebar(!isSidebarOpen);
-    };
+    const dispatch = useDispatch();
+    const isSidebarOpen = useSelector(state => state.sidebarReducer.isSidebarOpen);
+    const toggleSidebar = () => dispatch({ type: TOGGLE_SIDEBAR });
 
     return (
         <div>
-            <div className={ style.navbar } onClick={ showSidebar }>
+            <div className={ style.navbar } onClick={ toggleSidebar }>
                 <Link to='#' className={ style["menu-bars"] }>
                     <FontAwesomeIcon icon={ faAlignLeft }/>
                 </Link>
             </div>
             <nav className={ `${ style["nav-menu"] } ${ isSidebarOpen ? style.active : "" }` }>
-                <ul className={ style["nav-menu-items"] } onClick={ showSidebar }>
+                <ul className={ style["nav-menu-items"] } onClick={ toggleSidebar }>
                     <li className={ style["navbar-toggle"] }>
                         <Link to='#' className={ style["menu-bars"] }>
                             <FontAwesomeIcon icon={ faTimes }/>

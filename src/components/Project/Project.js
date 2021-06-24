@@ -1,88 +1,50 @@
-import React, { useState } from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
 import styles from './project.module.css';
 import dashedTile from '../../assets/images/dashedTile.svg';
-import idGenerator from '../../helpers/idGenerator';
 import ProjectFields from './ProjectFields';
 import SingleProject from './SingleProject';
 import Confirm from '../Confirm/Confirm';
+import { useDispatch, useSelector } from "react-redux";
+import {
+    ADD_PROJECT,
+    CLOSE_CONFIRM_MODAL,
+    EDIT_PROJECT,
+    REMOVE_SINGLE_PROJECT,
+    SET_ADD_PROJECT_FIELDS,
+    SET_EDITABLE_PROJECT,
+    SET_REMOVABLE_PROJECT_ID,
+} from "../../redux/actions/types";
 
 const Project = () => {
-    const [isAddProject, setAddProject] = useState(false);
-    const [editableProject, setEditableProject] = useState(null);
-    const [removableProjectId, setRemovableProjectId] = useState('null');
-    const [isOpenConfirm, setOpenConfirm] = useState(false);
-    const [projects, setProjects] = useState(
-        [
-            {
-                id: idGenerator(),
-                projectName: 'Project 1',
-                projectSummary: 'Business project 1',
-                date: new Date(),
-            },
-            {
-                id: idGenerator(),
-                projectName: 'Project 2',
-                projectSummary: 'Business project 2',
-                date: new Date(),
-            },
-            {
-                id: idGenerator(),
-                projectName: 'Project 3',
-                projectSummary: 'Business project 3',
-                date: new Date(),
-            },
-        ],
-    );
+    const dispatch = useDispatch();
+    const projects = useSelector(state => state.projectReducer.projects);
+    const isAddProject = useSelector(state => state.projectReducer.isAddProject);
+    const removableProjectId = useSelector(state => state.projectReducer.removableProjectId);
+    const isOpenConfirm = useSelector(state => state.projectReducer.isOpenConfirm);
+    const editableProject = useSelector(state => state.projectReducer.editableProject);
 
-    const toggleProjectFields = () => {
-        setAddProject(true);
-        setEditableProject(null);
-    };
+    const setAddProject = () => dispatch({ type: SET_ADD_PROJECT_FIELDS });
+
+    const closeConfirmModal = () => dispatch({ type: CLOSE_CONFIRM_MODAL });
 
     const addProject = (formData) => {
-        const newProjects = [...projects, { ...formData, },];
-
-        setAddProject(false);
-        setProjects(newProjects);
+        dispatch({ type: ADD_PROJECT, payload: { ...formData } });
     };
 
     const setRemovableProject = (id) => {
-        setOpenConfirm(!isOpenConfirm);
-        setRemovableProjectId(id);
-        setEditableProject(null);
-        setAddProject(false);
-    };
-
-    const toggleConfirmModal = () => {
-        setOpenConfirm(!isOpenConfirm);
-        setRemovableProjectId('');
+        dispatch({ type: SET_REMOVABLE_PROJECT_ID, id });
     };
 
     const removeProject = () => {
-        let newProjects = [...projects].filter((project) =>
-            project.id !== removableProjectId);
-
-        setOpenConfirm(!isOpenConfirm);
-        setProjects(newProjects);
-
+        dispatch({ type: REMOVE_SINGLE_PROJECT, removableProjectId });
     };
 
     const handleEditableProject = (editableProject) => {
-        setEditableProject(editableProject);
+        dispatch({ type: SET_EDITABLE_PROJECT, editableProject });
     };
 
     const editProject = (projectData) => {
-        const newProjects = projects.map((project) => {
-            if (project.id !== projectData.id) return project;
-
-            return { ...projectData };
-        });
-
-        setAddProject(false);
-        setEditableProject(null);
-        setProjects(newProjects);
-
+        dispatch({ type: EDIT_PROJECT, projectData });
     };
 
     const projectList = () => (
@@ -111,7 +73,7 @@ const Project = () => {
                     <Col md={ 3 }>
                         <div className={ styles["tile-structure"] }>
                             <div className={ styles["tile-structure-children"] }
-                                 onClick={ toggleProjectFields }
+                                 onClick={ setAddProject }
                             >
                                 <img src={ dashedTile } alt="Dashed Tile"/>
                                 <div className="mt-2">New Project</div>
@@ -137,7 +99,7 @@ const Project = () => {
             </Container>
             {
                 isOpenConfirm && <Confirm
-                    onHide={ toggleConfirmModal }
+                    onHide={ closeConfirmModal }
                     onRemoveProject={ removeProject }
                     show={ isOpenConfirm }
                 />

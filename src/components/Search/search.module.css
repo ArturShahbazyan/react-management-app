@@ -1,0 +1,20 @@
+.search-field {
+  border: none;
+  font-size: 1.3rem;
+}
+
+.search-row {
+  box-shadow: 0 2px 2px 0 rgb(122 132 162 / 28%);
+  border-radius: 10px;
+  margin: -8px 5px;
+}
+
+input[type="text"]:focus {
+  box-shadow: none;
+  outline: 0 none;
+  color: #5f6368;
+}
+
+.search-icon {
+  margin-top: 9px;
+}

@@ -1,0 +1,12 @@
+.project-detail {
+  margin-top: 2rem;
+}
+
+.tasks-details {
+  border-right: 1px solid rgba(0, 0, 0, .1);
+  border-left: 1px solid rgba(0, 0, 0, .1);
+}
+
+.tasks-col {
+  height: 50rem;
+}
