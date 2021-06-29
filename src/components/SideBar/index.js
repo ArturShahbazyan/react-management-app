@@ -4,13 +4,11 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
     faTimes,
     faAlignLeft,
-    faHome,
     faProjectDiagram,
     faInfoCircle,
 } from '@fortawesome/free-solid-svg-icons';
 import { useDispatch, useSelector } from "react-redux";
 import { TOGGLE_SIDEBAR } from "../../redux/actions/types";
-
 
 const sidebarList = [
     {
@@ -50,7 +48,7 @@ const SideBar = () => {
                                 <li key={ index } className={ style["nav-text"] }>
                                     <Link to={ item.path }>
                                         { item.icon }
-                                        <span>{ item.title }</span>
+                                        <span className="ml-3">{ item.title }</span>
                                     </Link>
                                 </li>
                             );

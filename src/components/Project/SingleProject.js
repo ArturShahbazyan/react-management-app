@@ -32,9 +32,9 @@ const SingleProject = ({
                 <Card.Body className="d-flex flex-column">
                     <Link className={ style["project-name"] } onClick={ setProjectDetail }
                           to={ `/project/${ project.id }` }>
-                        <Card.Title className="font-weight-bold">{ project.projectName }</Card.Title>
+                        <Card.Title className="font-weight-bold">{ project.name }</Card.Title>
                     </Link>
-                    <Card.Text>{ project.projectSummary }</Card.Text>
+                    <Card.Text>{ project.summary }</Card.Text>
                     <div>{ project.date.toISOString().slice(0, 10) }</div>
                     <div className={ style["fa-row"] }>
                         <div className="mr-3">

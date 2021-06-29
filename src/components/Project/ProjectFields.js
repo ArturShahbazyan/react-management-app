@@ -4,9 +4,10 @@ import idGenerator from "../../helpers/idGenerator";
 
 const ProjectFields = ({ editableProject, onSubmit }) => {
     const [fieldsState, setFieldsState] = useState({
-        projectName: "",
-        projectSummary: "",
+        name: "",
+        summary: "",
         date: new Date(),
+        task:[]
     });
 
     const handleChange = (e) => {
@@ -30,30 +31,32 @@ const ProjectFields = ({ editableProject, onSubmit }) => {
             });
         } else {
             setFieldsState({
-                projectName: "",
-                projectSummary: "",
+                name: "",
+                summary: "",
                 date: new Date(),
+                task:[]
             });
         }
     }, [editableProject]);
 
-    const { projectName, projectSummary } = fieldsState;
+    const { name, summary } = fieldsState;
 
     return (
         <div className="projectFields">
             <Form>
                 <Form.Group controlId="formBasicProjectName">
-                    <Form.Control type="text" placeholder="Project Name" name="projectName" value={ projectName }
+                    <Form.Control type="text" placeholder="Project Name" name="name"
+                                  value={ name }
                                   onChange={ handleChange }/>
                 </Form.Group>
                 <Form.Group controlId="formBasicProjectSummary">
-                    <Form.Control type="text" placeholder="Project Summary" name="projectSummary"
-                                  value={ projectSummary } onChange={ handleChange }/>
+                    <Form.Control type="text" placeholder="Project Summary" name="summary"
+                                  value={ summary } onChange={ handleChange }/>
                 </Form.Group>
                 <Button variant="secondary"
                         type="submit"
                         onClick={ handleSubmit }
-                        disabled={ !(projectName && projectSummary) }
+                        disabled={ !(name && summary) }
                 >
                     {
                         editableProject ? "Edit Project" : "Create Project"

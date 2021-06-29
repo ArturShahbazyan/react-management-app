@@ -77,10 +77,6 @@
   align-items: center;
 }
 
-span {
-  margin-left: 16px;
-}
-
 nav li a svg:active {
   color: #7c8596;
 }

@@ -2,10 +2,12 @@ import { createStore } from "redux";
 import { combineReducers } from "redux";
 import projectReducer from "./reducers/projectReducer";
 import sidebarReducer from "./reducers/sidebarReducer";
+import taskReducer from "./reducers/taskReducer";
 
 const reducers = combineReducers({
     projectReducer,
     sidebarReducer,
+    taskReducer,
 });
 
 const store = createStore(

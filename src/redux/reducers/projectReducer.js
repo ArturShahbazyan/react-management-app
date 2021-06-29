@@ -1,10 +1,10 @@
 import idGenerator from "../../helpers/idGenerator";
 import {
-    ADD_PROJECT,
+    ADD_PROJECT, ADD_TASK,
     CLOSE_CONFIRM_MODAL,
     EDIT_PROJECT,
-    REMOVE_SINGLE_PROJECT,
-    SET_ADD_PROJECT_FIELDS,
+    REMOVE_PROJECT,
+    SET_ADD_PROJECT,
     SET_EDITABLE_PROJECT,
     SET_PROJECT_DETAIL,
     SET_REMOVABLE_PROJECT_ID,
@@ -19,28 +19,47 @@ const initialState = {
     projects: [
         {
             id: idGenerator(),
-            projectName: 'Project 1',
-            projectSummary: 'Business project 1',
+            name: 'Project 1',
+            summary: 'Business project 1',
             date: new Date(),
+            task: [
+                {
+                    id: 1, name: 'ParentTask1', parent: null, children: [
+                        { id: 2, parent: { id: 1 }, name: 'subtask1', children: [] },
+                        {
+                            id: 3, parent: { id: 1 }, name: 'subtask2', children: [
+                                { id: 4, parent: { id: 3 }, name: 'task', children: [] }
+                            ]
+                        },
+                        { id: 5, parent: { id: 1 }, name: 'subtask3', children: [] },
+                        { id: 6, parent: { id: 1 }, name: 'subtask4', children: [] }
+                    ]
+                },
+                {
+                    id: 5, name: 'ParentTask2', parent: null, children: []
+                }
+            ],
         },
         {
             id: idGenerator(),
-            projectName: 'Project 2',
-            projectSummary: 'Business project 2',
+            name: 'Project 2',
+            summary: 'Business project 2',
             date: new Date(),
+            task: [],
         },
         {
             id: idGenerator(),
-            projectName: 'Project 3',
-            projectSummary: 'Business project 3',
+            name: 'Project 3',
+            summary: 'Business project 3',
             date: new Date(),
+            task: [],
         },
     ],
 };
 
 const projectReducer = (state = initialState, action) => {
     switch (action.type) {
-        case SET_ADD_PROJECT_FIELDS:
+        case SET_ADD_PROJECT:
             return {
                 ...state,
                 isAddProject: true,
@@ -60,9 +79,9 @@ const projectReducer = (state = initialState, action) => {
                 isAddProject: false,
                 editableProject: null,
             };
-        case REMOVE_SINGLE_PROJECT:
+        case REMOVE_PROJECT:
             const projects = state.projects.filter((project) =>
-                project.id !== state.removableProjectId)
+                project.id !== state.removableProjectId);
             return {
                 ...state,
                 projects,
@@ -96,6 +115,10 @@ const projectReducer = (state = initialState, action) => {
                 ...state,
                 projectDetail: action.payload,
             };
+        case ADD_TASK:
+            console.log(action.payload);
+
+            return state;
         default :
             return state;
     }

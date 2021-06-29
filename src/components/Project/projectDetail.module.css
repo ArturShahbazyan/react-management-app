@@ -10,3 +10,23 @@
 .tasks-col {
   height: 50rem;
 }
+
+.add-task-row {
+  margin: 20px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+}
+
+.add-task-content {
+  padding: 8px;
+  border-radius: 8px;
+  color: #a266e4;
+  background-color: #f4f4f7;
+}
+
+.add-task-content:hover {
+  background-color: #d3d8fb;
+}
+
+

@@ -1,0 +1,63 @@
+.tree-node {
+  overflow-y: hidden;
+}
+
+.tree-node-children {
+  margin-left: 15px;
+  transition: 0.6s;
+}
+
+.tree-node-children-collapsed {
+  height: 0px;
+}
+
+.tree-node-arrow {
+  cursor: pointer;
+  margin-right: 6px;
+  display: inline-block;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+}
+
+.tree-node-arrow-collapsed {
+  -webkit-transform: rotate(90deg);
+  -moz-transform: rotate(90deg);
+  -ms-transform: rotate(90deg);
+  transform: rotate(90deg);
+  transition: 0.3s;
+}
+
+.tree-node-content {
+  border-radius: 5px;
+  color: #5b5f66;
+  box-shadow: 0px 1px 3px -1px #9f9797;
+  border: 1px solid #cbc1c1;
+  padding: 15px;
+}
+
+.tree-node-content:hover {
+  background: #f6f8f9;
+}
+
+.fa-plus {
+  font-weight: 100;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.plus-row {
+  padding-left: 10px;
+  padding-right: 10px;
+  background-color: transparent;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.emptiness {
+  width: 25px;
+}
+
+.plus-row:hover {
+  background: #e5e9ea;
+}

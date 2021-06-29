@@ -3,14 +3,14 @@ import styles from './project.module.css';
 import dashedTile from '../../assets/images/dashedTile.svg';
 import ProjectFields from './ProjectFields';
 import SingleProject from './SingleProject';
-import Confirm from '../Confirm/Confirm';
+import Confirm from '../Confirm';
 import { useDispatch, useSelector } from "react-redux";
 import {
     ADD_PROJECT,
     CLOSE_CONFIRM_MODAL,
     EDIT_PROJECT,
-    REMOVE_SINGLE_PROJECT,
-    SET_ADD_PROJECT_FIELDS,
+    REMOVE_PROJECT,
+    SET_ADD_PROJECT,
     SET_EDITABLE_PROJECT,
     SET_REMOVABLE_PROJECT_ID,
 } from "../../redux/actions/types";
@@ -23,7 +23,7 @@ const Project = () => {
     const isOpenConfirm = useSelector(state => state.projectReducer.isOpenConfirm);
     const editableProject = useSelector(state => state.projectReducer.editableProject);
 
-    const setAddProject = () => dispatch({ type: SET_ADD_PROJECT_FIELDS });
+    const setAddProject = () => dispatch({ type: SET_ADD_PROJECT });
 
     const closeConfirmModal = () => dispatch({ type: CLOSE_CONFIRM_MODAL });
 
@@ -36,7 +36,7 @@ const Project = () => {
     };
 
     const removeProject = () => {
-        dispatch({ type: REMOVE_SINGLE_PROJECT, removableProjectId });
+        dispatch({ type: REMOVE_PROJECT, removableProjectId });
     };
 
     const handleEditableProject = (editableProject) => {

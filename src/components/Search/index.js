@@ -1,10 +1,9 @@
-import { Button, Col, FormControl, Row } from "react-bootstrap";
+import { Col, FormControl, Row } from "react-bootstrap";
 import search from "../../assets/images/search.svg"
 import style from "./search.module.css"
 import React from "react";
 
 const Search = () => {
-
     return (
         <Row>
             <Col className={ `d-flex ${ style["search-row"] }` }>
