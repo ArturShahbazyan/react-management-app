@@ -9,12 +9,6 @@
   margin: -8px 5px;
 }
 
-input[type="text"]:focus {
-  box-shadow: none;
-  outline: 0 none;
-  color: #5f6368;
-}
-
 .search-icon {
   margin-top: 9px;
 }

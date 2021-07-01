@@ -1,6 +1,7 @@
 import idGenerator from "../../helpers/idGenerator";
+
 import {
-    ADD_PROJECT, ADD_TASK,
+    ADD_PROJECT, ADD_SUB_TASK, ADD_TASK,
     CLOSE_CONFIRM_MODAL,
     EDIT_PROJECT,
     REMOVE_PROJECT,
@@ -9,6 +10,7 @@ import {
     SET_PROJECT_DETAIL,
     SET_REMOVABLE_PROJECT_ID,
 } from "../actions/types";
+import getParent from "../../helpers/getParent";
 
 const initialState = {
     isAddProject: false,
@@ -36,7 +38,7 @@ const initialState = {
                     ]
                 },
                 {
-                    id: 5, name: 'ParentTask2', parent: null, children: []
+                    id: 7, name: 'ParentTask2', parent: null, children: []
                 }
             ],
         },
@@ -58,19 +60,22 @@ const initialState = {
 };
 
 const projectReducer = (state = initialState, action) => {
+
     switch (action.type) {
         case SET_ADD_PROJECT:
             return {
                 ...state,
                 isAddProject: true,
-                editableProject: null
+                editableProject: null,
             };
+
         case ADD_PROJECT:
             return {
                 ...state,
                 projects: [...state.projects, action.payload,],
                 isAddProject: !state.isAddProject,
             };
+
         case SET_REMOVABLE_PROJECT_ID:
             return {
                 ...state,
@@ -79,6 +84,7 @@ const projectReducer = (state = initialState, action) => {
                 isAddProject: false,
                 editableProject: null,
             };
+
         case REMOVE_PROJECT:
             const projects = state.projects.filter((project) =>
                 project.id !== state.removableProjectId);
@@ -88,37 +94,77 @@ const projectReducer = (state = initialState, action) => {
                 isOpenConfirm: !state.isOpenConfirm,
                 removableProjectId: "",
             };
+
         case CLOSE_CONFIRM_MODAL:
             return {
                 ...state,
                 isOpenConfirm: !state.isOpenConfirm,
             };
+
         case SET_EDITABLE_PROJECT:
             return {
                 ...state,
                 editableProject: action.editableProject,
             };
+
         case EDIT_PROJECT:
             const newProjects = state.projects.map((project) => {
                 if (project.id !== action.projectData.id) return project;
 
                 return { ...action.projectData };
             });
+
             return {
                 ...state,
                 projects: newProjects,
                 isAddProject: false,
                 editableProject: null,
             };
+
         case SET_PROJECT_DETAIL:
             return {
                 ...state,
                 projectDetail: action.payload,
             };
-        case ADD_TASK:
-            console.log(action.payload);
 
-            return state;
+        case ADD_TASK: {
+            const project = [...state.projects].find((project) => {
+                return project.id === action.payload.projectId;
+            });
+
+            const taskAddedProject = project.task.push(action.payload.taskData);
+            const projects = state.projects.map((project) => {
+                if (project.id !== taskAddedProject.id) return project;
+                return { ...taskAddedProject };
+            });
+
+            return {
+                ...state,
+                projects,
+            };
+        }
+
+        case ADD_SUB_TASK: {
+
+            const project = [...state.projects].find((project) => {
+                return project.id === action.payload.projectId;
+            });
+
+            const projectTask = project.task;
+            const parent = getParent(projectTask, action.payload.subtaskId);
+            const subtaskAddedProject = parent.children.push(action.payload.subtaskData);
+
+            const projects = state.projects.map((project) => {
+                if (project.id !== subtaskAddedProject.id) return project;
+                return { ...subtaskAddedProject };
+            });
+
+            return {
+                ...state,
+                projects,
+            };
+        }
+
         default :
             return state;
     }

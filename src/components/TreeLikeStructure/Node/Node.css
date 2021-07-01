@@ -47,8 +47,7 @@
 }
 
 .plus-row {
-  padding-left: 10px;
-  padding-right: 10px;
+  width: 35px;
   background-color: transparent;
   cursor: pointer;
   border-radius: 5px;

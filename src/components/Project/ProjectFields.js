@@ -7,7 +7,7 @@ const ProjectFields = ({ editableProject, onSubmit }) => {
         name: "",
         summary: "",
         date: new Date(),
-        task:[]
+        task: [],
     });
 
     const handleChange = (e) => {
@@ -27,19 +27,19 @@ const ProjectFields = ({ editableProject, onSubmit }) => {
     useEffect(() => {
         if (editableProject) {
             setFieldsState({
-                ...editableProject
+                ...editableProject,
             });
         } else {
             setFieldsState({
                 name: "",
                 summary: "",
                 date: new Date(),
-                task:[]
+                task: [],
             });
         }
     }, [editableProject]);
 
-    const { name, summary } = fieldsState;
+    const { name, summary, } = fieldsState;
 
     return (
         <div className="projectFields">

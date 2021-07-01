@@ -7,11 +7,11 @@ const Search = () => {
     return (
         <Row>
             <Col className={ `d-flex ${ style["search-row"] }` }>
-                <FormControl type="text" placeholder="Search..." className={ style["search-field"] }/>
+                <FormControl type="search" placeholder="Search..." className={ style["search-field"] }/>
                 <img src={ search } alt="Search" className={ style["search-icon"] }/>
             </Col>
         </Row>
-    )
+    );
 };
 
 export default Search;
