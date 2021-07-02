@@ -1,13 +1,11 @@
 .navbar {
-  height: 80px;
   display: flex;
   justify-content: flex-start;
-  align-items: center;
-  border-bottom-style: groove;
 }
 
 .menu-bars {
-  margin-left: 2rem;
+  margin-left: 2.2rem;
+  margin-top: 1.2rem;
   font-size: 2rem;
   background: none;
   color: #525d73;

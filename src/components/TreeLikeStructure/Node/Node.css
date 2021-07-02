@@ -60,3 +60,21 @@
 .plus-row:hover {
   background: #e5e9ea;
 }
+
+.fa-edit-task, .fa-trash-task {
+  color: #6f7782;
+  font-size: 15px;
+  cursor: pointer;
+}
+
+.fa-edit-task:hover {
+  color: #30caca;
+}
+
+.fa-trash-task:hover {
+  color: #f33b80;
+}
+
+.fa-edit-task {
+  margin-left: 12px;
+}

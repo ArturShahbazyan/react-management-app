@@ -10,7 +10,7 @@ import {
     SET_PROJECT_DETAIL,
     SET_REMOVABLE_PROJECT_ID,
 } from "../actions/types";
-import getParent from "../../helpers/getParent";
+import findNode from "../../helpers/findNode";
 
 const initialState = {
     isAddProject: false,
@@ -151,7 +151,7 @@ const projectReducer = (state = initialState, action) => {
             });
 
             const projectTask = project.task;
-            const parent = getParent(projectTask, action.payload.subtaskId);
+            const parent = findNode(projectTask, action.payload.subtaskId);
             const subtaskAddedProject = parent.children.push(action.payload.subtaskData);
 
             const projects = state.projects.map((project) => {

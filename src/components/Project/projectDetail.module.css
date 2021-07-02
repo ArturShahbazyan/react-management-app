@@ -8,7 +8,8 @@
 }
 
 .tasks-col {
-  height: 50rem;
+  height: auto;
+  min-height: 30rem;
 }
 
 .add-task-row {

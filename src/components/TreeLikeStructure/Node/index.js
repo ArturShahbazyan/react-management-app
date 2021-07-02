@@ -2,9 +2,12 @@ import dragIcon from "../../../assets/images/dragIcon.svg";
 import arrowIcon from "../../../assets/images/arrowIcon.svg";
 import checkCircleIcon from "../../../assets/images/checkCircleIcon.svg";
 import plusIcon from "../../../assets/images/plusIcon.svg";
+import { faTrash, faEdit } from '@fortawesome/free-solid-svg-icons';
 import React, { useState } from "react";
 import "./Node.css";
 import { Col, Row } from "react-bootstrap";
+import { Link } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const Node = ({ nodes, parentTask, handleToggleSubtaskModalAndGetSubtaskId, }) => {
     const [isCollapsed, setCollapse] = useState(true);
@@ -19,6 +22,7 @@ const Node = ({ nodes, parentTask, handleToggleSubtaskModalAndGetSubtaskId, }) =
 
     let arrowClassName = 'tree-node-arrow';
     let containerClassName = 'tree-node-children';
+
     if (!isCollapsed) {
         arrowClassName += ' tree-node-arrow-collapsed';
     } else {
@@ -38,15 +42,25 @@ const Node = ({ nodes, parentTask, handleToggleSubtaskModalAndGetSubtaskId, }) =
                                 <img src={ arrowIcon } alt="Arrow"/> }
                         </div>
                     </Col>
-                    <Col md={ 8 }>
-                        <a data-id={ parentTask.id } href="#">
+                    <Col md={ 6 }>
+                        <Link to="#">
                             { parentTask.name }
-                        </a>
+                        </Link>
                     </Col>
                     <Col md={ 1 }>
                         <div>
                             <img src={ checkCircleIcon } alt="Check circle"/>
                         </div>
+                    </Col>
+                    <Col xs={ 12 } md={ 2 }>
+                        <FontAwesomeIcon
+                            icon={ faTrash }
+                            className="fa-trash-task"
+                        />
+                        <FontAwesomeIcon
+                            icon={ faEdit }
+                            className="fa-edit-task"
+                        />
                     </Col>
                     <Col xs={ 12 } md={ 1 }>
                         <div className="plus-row" onClick={ toggleModalAndSendId }>

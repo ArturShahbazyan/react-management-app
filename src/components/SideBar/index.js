@@ -7,8 +7,8 @@ import {
     faProjectDiagram,
     faInfoCircle,
 } from '@fortawesome/free-solid-svg-icons';
-import { useDispatch, useSelector } from "react-redux";
 import { TOGGLE_SIDEBAR } from "../../redux/actions/types";
+import { connect } from "react-redux";
 
 const sidebarList = [
     {
@@ -23,15 +23,12 @@ const sidebarList = [
     },
 ];
 
-const SideBar = () => {
-    const dispatch = useDispatch();
-    const isSidebarOpen = useSelector(state => state.sidebarReducer.isSidebarOpen);
-    const toggleSidebar = () => dispatch({ type: TOGGLE_SIDEBAR });
+const SideBar = ({isSidebarOpen, toggleSidebar}) => {
 
     return (
         <div>
-            <div className={ style.navbar } onClick={ toggleSidebar }>
-                <Link to='#' className={ style["menu-bars"] }>
+            <div className={ style.navbar }>
+                <Link to='#' className={ style["menu-bars"] } onClick={ toggleSidebar }>
                     <FontAwesomeIcon icon={ faAlignLeft }/>
                 </Link>
             </div>
@@ -60,4 +57,16 @@ const SideBar = () => {
     );
 };
 
-export default SideBar;
+const mapStateToProps = (state) => {
+    return {
+        isSidebarOpen: state.sidebarReducer.isSidebarOpen,
+    }
+};
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        toggleSidebar: () => dispatch({ type: TOGGLE_SIDEBAR })
+    }
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(SideBar);
