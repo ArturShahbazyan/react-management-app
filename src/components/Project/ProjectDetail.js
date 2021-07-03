@@ -6,8 +6,8 @@ import Search from "../Search";
 import Tree from "../TreeLikeStructure/Tree";
 import React from "react";
 import {
-    ADD_SUB_TASK,
-    ADD_TASK,
+    ADD_SUB_TASK, ADD_TASK,
+    SET_PROJECT_TASK_ID,
     TOGGLE_SUBTASK_MODAL_AND_SET_SUBTASK_ID,
     TOGGLE_TASK_MODAL,
 } from "../../redux/actions/types";
@@ -19,6 +19,7 @@ const ProjectDetail = () => {
     const isTaskModalOpen = useSelector(state => state.taskReducer.isTaskModalOpen);
     const isSubtaskModalOpen = useSelector(state => state.taskReducer.isSubtaskModalOpen);
     const subtaskId = useSelector(state => state.taskReducer.subtaskId);
+    const task = useSelector(state => state.taskReducer.task);
 
     const handleToggleTaskModal = () => {
         dispatch({ type: TOGGLE_TASK_MODAL });
@@ -30,20 +31,27 @@ const ProjectDetail = () => {
 
     const receiveTaskData = (taskData) => {
         const projectId = projectDetail.id;
-        dispatch({ type: ADD_TASK, payload: { taskData, projectId } });
+        const taskId = taskData.id;
+        dispatch({ type: ADD_TASK, taskData });
+        dispatch({ type: SET_PROJECT_TASK_ID, payload: { taskId, projectId } });
         dispatch({ type: TOGGLE_TASK_MODAL });
     };
 
     const receiveSubtaskData = (subtaskData) => {
-        const projectId = projectDetail.id;
-        dispatch({ type: ADD_SUB_TASK, payload: { subtaskId, subtaskData, projectId } });
+        dispatch({ type: ADD_SUB_TASK, subtaskData });
         dispatch({ type: TOGGLE_SUBTASK_MODAL_AND_SET_SUBTASK_ID });
     };
 
-    const taskTree = projectDetail.task.map(parentTask => {
-        return <Tree key={ parentTask.id } parentTask={ parentTask }
-                     handleToggleSubtaskModalAndGetSubtaskId={ handleToggleSubtaskModalAndGetSubtaskId }
-        />;
+    const taskTree = task.map(parentTask => {
+        return projectDetail.task.map(projectTaskId => {
+            if (parentTask.id === projectTaskId) {
+                return <Tree
+                    key={ parentTask.id }
+                    parentTask={ parentTask }
+                    handleToggleSubtaskModalAndGetSubtaskId={ handleToggleSubtaskModalAndGetSubtaskId }
+                />;
+            }
+        });
     });
 
     return (
