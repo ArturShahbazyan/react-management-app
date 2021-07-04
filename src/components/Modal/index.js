@@ -5,7 +5,14 @@ import style from "./modal.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import idGenerator from "../../helpers/idGenerator";
 
-const TaskModal = ({ show, onHide, sendData, isTaskModalOpen, isSubtaskModalOpen }) => {
+const TaskModal = ({
+                       show,
+                       onHide,
+                       sendData,
+                       isTaskModalOpen,
+                       isSubtaskModalOpen,
+                       editableTaskData,
+                   }) => {
     const [taskState, setTaskState] = useState({
         id: idGenerator(),
         parent: null,
@@ -14,14 +21,13 @@ const TaskModal = ({ show, onHide, sendData, isTaskModalOpen, isSubtaskModalOpen
         children: [],
     });
 
-    const handleChangeTaskData = (e) => {
-        const { name, value } = e.target;
-
-        setTaskState({
-            ...taskState,
-            [name]: value
-        });
-    };
+    useEffect(() => {
+        if (editableTaskData) {
+            setTaskState({
+                ...editableTaskData,
+            });
+        }
+    }, [editableTaskData]);
 
     useEffect(() => {
         if (!isTaskModalOpen || !isSubtaskModalOpen) {
@@ -34,6 +40,15 @@ const TaskModal = ({ show, onHide, sendData, isTaskModalOpen, isSubtaskModalOpen
             });
         }
     }, [isTaskModalOpen, isSubtaskModalOpen]);
+
+    const handleChangeTaskData = (e) => {
+        const { name, value } = e.target;
+
+        setTaskState({
+            ...taskState,
+            [name]: value
+        });
+    };
 
     const handleSendTaskData = (e) => {
         if (e.type === 'keypress' && e.key !== 'Enter') return;
@@ -53,7 +68,14 @@ const TaskModal = ({ show, onHide, sendData, isTaskModalOpen, isSubtaskModalOpen
     return (
         <Modal show={ show } onHide={ onHide }>
             <Modal.Header closeButton className="d-flex align-items-center">
-                <Modal.Title>{ isTaskModalOpen ? "Create Task" : "Create Subtask" }</Modal.Title>
+                <Modal.Title>
+                    {
+                        isTaskModalOpen ?
+                            "Create Task" :
+                            editableTaskData ?
+                                "Edit Task" : "Create Subtask"
+                    }
+                </Modal.Title>
                 <FontAwesomeIcon
                     icon={ faTasks }
                     className={ style['fa-tasks'] }
@@ -87,7 +109,7 @@ const TaskModal = ({ show, onHide, sendData, isTaskModalOpen, isSubtaskModalOpen
                     <Col className="d-flex justify-content-center my-3">
                         <Button variant="secondary"
                                 className="mr-3"
-                                onClick={ onHide }
+                                onClick={ () => onHide() }
                         >
                             Cancel
                         </Button>
@@ -95,7 +117,12 @@ const TaskModal = ({ show, onHide, sendData, isTaskModalOpen, isSubtaskModalOpen
                                 onClick={ handleSendTaskData }
                                 disabled={ !(taskState.name && taskState.description) }
                         >
-                            { isTaskModalOpen ? "Add Task" : "Add SubTask" }
+                            {
+                                isTaskModalOpen ?
+                                    "Add Task" :
+                                    editableTaskData ?
+                                        "Edit Task" : "Add SubTask"
+                            }
                         </Button>
                     </Col>
                 </Form.Row>

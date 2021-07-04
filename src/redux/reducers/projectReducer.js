@@ -8,7 +8,7 @@ import {
     SET_PROJECT_DETAIL, SET_PROJECT_TASK_ID,
     SET_REMOVABLE_PROJECT_ID,
 } from "../actions/types";
-import { initialProjectState } from "./state/initialProjectState";
+import { initialProjectState } from "./initialState/initialProjectState";
 
 
 const projectReducer = (state = initialProjectState, action) => {

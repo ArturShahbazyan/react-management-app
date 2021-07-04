@@ -9,7 +9,13 @@ import { Col, Row } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-const Node = ({ nodes, parentTask, handleToggleSubtaskModalAndGetSubtaskId, }) => {
+const Node = ({
+                  nodes,
+                  parentTask,
+                  handleToggleSubtaskModalAndGetSubtaskId,
+                  toggleTaskConfirmAndSendId,
+                  toggleEditModalAndSendEditableData,
+              }) => {
     const [isCollapsed, setCollapse] = useState(true);
 
     const handleSetCollapse = () => {
@@ -18,6 +24,15 @@ const Node = ({ nodes, parentTask, handleToggleSubtaskModalAndGetSubtaskId, }) =
 
     const toggleModalAndSendId = () => {
         handleToggleSubtaskModalAndGetSubtaskId(parentTask.id);
+    };
+
+    const handleToggleTaskConfirmAndSendId = () => {
+        const removableTaskId = parentTask.id;
+        toggleTaskConfirmAndSendId(removableTaskId);
+    };
+
+    const handleToggleEditModalAndSendEditableData = () => {
+        toggleEditModalAndSendEditableData(parentTask);
     };
 
     let arrowClassName = 'tree-node-arrow';
@@ -56,10 +71,12 @@ const Node = ({ nodes, parentTask, handleToggleSubtaskModalAndGetSubtaskId, }) =
                         <FontAwesomeIcon
                             icon={ faTrash }
                             className="fa-trash-task"
+                            onClick={ handleToggleTaskConfirmAndSendId }
                         />
                         <FontAwesomeIcon
                             icon={ faEdit }
                             className="fa-edit-task"
+                            onClick={ handleToggleEditModalAndSendEditableData }
                         />
                     </Col>
                     <Col xs={ 12 } md={ 1 }>
@@ -73,6 +90,7 @@ const Node = ({ nodes, parentTask, handleToggleSubtaskModalAndGetSubtaskId, }) =
                 { nodes }
             </div>
         </div>
+
     );
 };
 
