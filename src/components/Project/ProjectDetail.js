@@ -16,6 +16,7 @@ import {
 import TaskModal from "../Modal";
 import Confirm from "../Confirm";
 import React from "react";
+import ProjectTaskList from "./ProjectTaskList";
 
 const ProjectDetail = () => {
     const dispatch = useDispatch();
@@ -64,7 +65,7 @@ const ProjectDetail = () => {
         dispatch({ type: EDIT_TASK, taskData });
     }
 
-    let taskTree = task.map(parentTask => {
+    const taskTree = task.map(parentTask => {
         for (let i = 0; i < projectDetail.task.length; i++) {
             if (parentTask.id === projectDetail.task[i]) {
                 return <Tree
@@ -74,6 +75,15 @@ const ProjectDetail = () => {
                     toggleTaskConfirmAndSendId={ toggleTaskConfirmAndSendId }
                     toggleEditModalAndSendEditableData={ toggleEditModalAndSendEditableData }
                 />;
+            }
+        }
+        return null;
+    });
+
+    const taskList = task.map(task => {
+        for (let i = 0; i < projectDetail.task.length; i++) {
+            if (projectDetail.task[i] === task.id) {
+                return <ProjectTaskList key={ task.id } name={ task.name } description={ task.description }/>
             }
         }
         return null;
@@ -93,6 +103,7 @@ const ProjectDetail = () => {
                 <hr/>
                 <Row className="mt-5">
                     <Col md={ 3 } className={ style["tasks-col"] }>
+                        { taskList }
                     </Col>
                     <Col md={ 6 } className={ `${ style["tasks-details"] } ${ style["tasks-col"] }` }>
                         { taskTree }
