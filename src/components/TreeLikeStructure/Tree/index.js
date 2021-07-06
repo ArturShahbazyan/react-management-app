@@ -6,16 +6,17 @@ const Tree = ({
                   handleToggleSubtaskModalAndGetSubtaskId,
                   toggleTaskConfirmAndSendId,
                   toggleEditModalAndSendEditableData,
-}) => {
+              }) => {
     let nodes = null;
+
     if (parentTask.children) {
         nodes = parentTask.children.map((parentTask) => {
             return <Tree
                 key={ parentTask.id }
                 parentTask={ parentTask }
                 handleToggleSubtaskModalAndGetSubtaskId={ handleToggleSubtaskModalAndGetSubtaskId }
-                toggleTaskConfirmAndSendId={toggleTaskConfirmAndSendId}
-                toggleEditModalAndSendEditableData={toggleEditModalAndSendEditableData}
+                toggleTaskConfirmAndSendId={ toggleTaskConfirmAndSendId }
+                toggleEditModalAndSendEditableData={ toggleEditModalAndSendEditableData }
             />;
         });
     }
@@ -26,8 +27,8 @@ const Tree = ({
                 nodes={ nodes }
                 parentTask={ parentTask }
                 handleToggleSubtaskModalAndGetSubtaskId={ handleToggleSubtaskModalAndGetSubtaskId }
-                toggleTaskConfirmAndSendId={toggleTaskConfirmAndSendId}
-                toggleEditModalAndSendEditableData={toggleEditModalAndSendEditableData}
+                toggleTaskConfirmAndSendId={ toggleTaskConfirmAndSendId }
+                toggleEditModalAndSendEditableData={ toggleEditModalAndSendEditableData }
             />
         );
     } else {

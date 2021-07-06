@@ -5,6 +5,7 @@ import addTaskIcon from "../../assets/images/addTaskIcon.svg"
 import Search from "../Search";
 import Tree from "../TreeLikeStructure/Tree";
 import {
+    ADD_DRAGGABLE_TASK_TO_TASKS,
     ADD_SUB_TASK, ADD_TASK,
     EDIT_TASK, REMOVE_TASK,
     SET_PROJECT_TASK_ID,
@@ -17,6 +18,7 @@ import TaskModal from "../Modal";
 import Confirm from "../Confirm";
 import React from "react";
 import ProjectTaskList from "./ProjectTaskList";
+import idGenerator from "../../helpers/idGenerator";
 
 const ProjectDetail = () => {
     const dispatch = useDispatch();
@@ -65,6 +67,15 @@ const ProjectDetail = () => {
         dispatch({ type: EDIT_TASK, taskData });
     }
 
+    const handleOnDrop = (e) => {
+        let task = JSON.parse(e.dataTransfer.getData("task"));
+        task.id = idGenerator();
+        const taskId = task.id
+        const projectId = projectDetail.id;
+        dispatch({ type: ADD_DRAGGABLE_TASK_TO_TASKS, task });
+        dispatch({ type: SET_PROJECT_TASK_ID, payload: { taskId, projectId } });
+    };
+
     const taskTree = task.map(parentTask => {
         for (let i = 0; i < projectDetail.task.length; i++) {
             if (parentTask.id === projectDetail.task[i]) {
@@ -83,7 +94,11 @@ const ProjectDetail = () => {
     const taskList = task.map(task => {
         for (let i = 0; i < projectDetail.task.length; i++) {
             if (projectDetail.task[i] === task.id) {
-                return <ProjectTaskList key={ task.id } name={ task.name } description={ task.description }/>
+                return <ProjectTaskList
+                    key={ task.id }
+                    name={ task.name }
+                    description={ task.description }
+                />
             }
         }
         return null;
@@ -102,13 +117,24 @@ const ProjectDetail = () => {
                 </Row>
                 <hr/>
                 <Row className="mt-5">
-                    <Col md={ 3 } className={ style["tasks-col"] }>
+                    <Col
+                        md={ 3 }
+                        className={ style["tasks-col"] }
+                    >
                         { taskList }
                     </Col>
-                    <Col md={ 6 } className={ `${ style["tasks-details"] } ${ style["tasks-col"] }` }>
+                    <Col
+                        onDrop={ handleOnDrop }
+                        onDragOver={ e => (e.preventDefault()) }
+                        md={ 6 }
+                        className={ `${ style["tasks-details"] } ${ style["tasks-col"] }` }
+                    >
                         { taskTree }
                     </Col>
-                    <Col md={ 3 } className={ `${ style["tasks-col"] }` }>
+                    <Col
+                        md={ 3 }
+                        className={ `${ style["tasks-col"] }` }
+                    >
                         <Search/>
                     </Col>
                 </Row>
@@ -142,7 +168,7 @@ const ProjectDetail = () => {
                 />
             }
         </div>
-    )
+    );
 };
 
 export default ProjectDetail;

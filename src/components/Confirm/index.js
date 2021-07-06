@@ -1,7 +1,7 @@
 import { Modal, Button } from 'react-bootstrap';
 import React from 'react';
 
-const Confirm = ({ onHide, onRemoveProject, show, isOpenTaskConfirm, onRemoveTask}) => {
+const Confirm = ({ onHide, onRemoveProject, show, isOpenTaskConfirm, onRemoveTask }) => {
     return (
         <Modal show={ show } onHide={ onHide }>
             <Modal.Header closeButton>Are you sure ?</Modal.Header>

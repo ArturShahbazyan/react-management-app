@@ -1,5 +1,6 @@
 .tree-node {
   overflow-y: hidden;
+  cursor: pointer;
 }
 
 .tree-node-children {

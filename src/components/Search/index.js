@@ -7,22 +7,21 @@ import TaskItem from "./TaskItem";
 
 const Search = () => {
     const [searchValue, setSearchValue] = useState('');
+    const [foundTasks, setFoundTasks] = useState([]);
     const task = useSelector(state => state.taskReducer.task);
-
-    const filteredTasks = task.filter(task => {
-        if(searchValue) {
-            return task.name.toLowerCase().includes(searchValue.toLowerCase());
-        }
-        return null;
-    });
-
-   const tasksList = filteredTasks.map(task=> {
-        return <TaskItem name={task.name} key={task.id}/>
-    });
 
     const handleSetSearchValue = (e) => {
         setSearchValue(e.target.value);
+        setFoundTasks(task);
     };
+
+    const filteredTasks = foundTasks.filter((taskItem) => {
+        return searchValue && taskItem.name.toLowerCase().includes(searchValue.toLowerCase());
+    });
+
+    const taskList = filteredTasks.map(task => {
+        return <TaskItem task={ task } key={ task.id }/>
+    });
 
     return (
         <div>
@@ -37,7 +36,7 @@ const Search = () => {
                     <img src={ search } alt="Search" className={ style["search-icon"] }/>
                 </Col>
             </Row>
-            { tasksList }
+            { taskList }
         </div>
     );
 };

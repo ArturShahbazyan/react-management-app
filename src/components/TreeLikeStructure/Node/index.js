@@ -46,7 +46,7 @@ const Node = ({
 
     return (
         <div className="tree-node">
-            <div className="tree-node-content mb-2 py-2">
+            <div className="tree-node-content mb-2">
                 <Row className="p-2">
                     <Col md={ 1 }>
                         <img src={ dragIcon } alt="Drag"/>
@@ -90,7 +90,6 @@ const Node = ({
                 { nodes }
             </div>
         </div>
-
     );
 };
 

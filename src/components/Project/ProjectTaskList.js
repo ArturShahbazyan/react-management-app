@@ -4,10 +4,10 @@ import { Link } from "react-router-dom";
 import checkCircleIcon from "../../assets/images/checkCircleIcon.svg";
 import React from "react";
 
-const  ProjectTaskList = ({name}) => {
+const ProjectTaskList = ({ name }) => {
     return (
         <div className="tree-node">
-            <div className="tree-node-content mb-2 py-2">
+            <div className="tree-node-content mb-2">
                 <Row className="p-2">
                     <Col md={ 1 }>
                         <img src={ dragIcon } alt="Drag"/>
@@ -25,7 +25,7 @@ const  ProjectTaskList = ({name}) => {
                 </Row>
             </div>
         </div>
-    )
-}
+    );
+};
 
 export default ProjectTaskList;

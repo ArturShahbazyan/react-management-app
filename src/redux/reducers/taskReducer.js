@@ -1,4 +1,5 @@
 import {
+    ADD_DRAGGABLE_TASK_TO_TASKS,
     ADD_SUB_TASK,
     ADD_TASK,
     EDIT_TASK,
@@ -97,6 +98,13 @@ const taskReducer = (state = initialState, action) => {
                 ...state,
                 task: newTask,
                 isEditTaskModalOpen: !state.isEditTaskModalOpen,
+            };
+        }
+
+        case ADD_DRAGGABLE_TASK_TO_TASKS: {
+            return {
+                ...state,
+                task: [...state.task, action.task],
             };
         }
 

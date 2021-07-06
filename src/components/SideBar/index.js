@@ -23,7 +23,7 @@ const sidebarList = [
     },
 ];
 
-const SideBar = ({isSidebarOpen, toggleSidebar}) => {
+const SideBar = ({ isSidebarOpen, toggleSidebar }) => {
 
     return (
         <div>

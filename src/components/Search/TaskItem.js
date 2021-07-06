@@ -5,17 +5,28 @@ import dragIcon from "../../assets/images/dragIcon.svg";
 import checkCircleIcon from "../../assets/images/checkCircleIcon.svg";
 import "../TreeLikeStructure/Node/Node.css";
 
-const TaskItem = ({name}) => {
+const TaskItem = ({ task }) => {
+    const handleOnDragStart = (e, task) => {
+        e.dataTransfer.setData("task", JSON.stringify(task));
+    };
+
     return (
-        <div className="tree-node">
-            <div className="tree-node-content mb-2 py-2">
+        <div
+            className="tree-node"
+            draggable={ true }
+            onDragStart={ e => handleOnDragStart(e, task) }
+        >
+            <div
+                className="tree-node-content mb-2"
+                onDragStart={ e => e.preventDefault() }
+            >
                 <Row className="p-2">
                     <Col md={ 1 }>
                         <img src={ dragIcon } alt="Drag"/>
                     </Col>
                     <Col md={ 9 }>
                         <Link to="#">
-                            { name }
+                            { task.name }
                         </Link>
                     </Col>
                     <Col md={ 1 }>
@@ -26,7 +37,7 @@ const TaskItem = ({name}) => {
                 </Row>
             </div>
         </div>
-    )
-}
+    );
+};
 
 export default TaskItem;
