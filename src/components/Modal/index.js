@@ -15,7 +15,7 @@ const TaskModal = ({
                    }) => {
     const [taskState, setTaskState] = useState({
         id: idGenerator(),
-        parent: null,
+        parentId: "",
         name: "",
         description: "",
         children: [],
@@ -33,7 +33,7 @@ const TaskModal = ({
         if (!isTaskModalOpen || !isSubtaskModalOpen) {
             setTaskState({
                 id: idGenerator(),
-                parent: null,
+                parentId: "",
                 name: "",
                 description: "",
                 children: [],
@@ -58,7 +58,7 @@ const TaskModal = ({
 
         setTaskState({
             id: idGenerator(),
-            parent: null,
+            parentId: "",
             name: "",
             description: "",
             children: [],

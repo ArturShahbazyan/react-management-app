@@ -85,7 +85,7 @@ const projectReducer = (state = initialProjectState, action) => {
                 return project.id === action.payload.projectId;
             });
 
-            const taskAddedProject = project.task.push(action.payload.taskId);
+            const taskAddedProject = project.tasks.push(action.payload.taskId);
             const projects = state.projects.map((project) => {
                 if (project.id !== taskAddedProject.id) return project;
                 return { ...taskAddedProject };

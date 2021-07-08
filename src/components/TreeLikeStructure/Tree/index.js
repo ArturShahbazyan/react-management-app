@@ -3,7 +3,7 @@ import React from "react";
 
 const Tree = ({
                   parentTask,
-                  handleToggleSubtaskModalAndGetSubtaskId,
+                  handleToggleModalAndGetParentId,
                   toggleTaskConfirmAndSendId,
                   toggleEditModalAndSendEditableData,
               }) => {
@@ -14,7 +14,7 @@ const Tree = ({
             return <Tree
                 key={ parentTask.id }
                 parentTask={ parentTask }
-                handleToggleSubtaskModalAndGetSubtaskId={ handleToggleSubtaskModalAndGetSubtaskId }
+                handleToggleModalAndGetParentId={ handleToggleModalAndGetParentId }
                 toggleTaskConfirmAndSendId={ toggleTaskConfirmAndSendId }
                 toggleEditModalAndSendEditableData={ toggleEditModalAndSendEditableData }
             />;
@@ -26,7 +26,7 @@ const Tree = ({
             <Node
                 nodes={ nodes }
                 parentTask={ parentTask }
-                handleToggleSubtaskModalAndGetSubtaskId={ handleToggleSubtaskModalAndGetSubtaskId }
+                handleToggleModalAndGetParentId={ handleToggleModalAndGetParentId }
                 toggleTaskConfirmAndSendId={ toggleTaskConfirmAndSendId }
                 toggleEditModalAndSendEditableData={ toggleEditModalAndSendEditableData }
             />

@@ -4,7 +4,7 @@ import {
     ADD_TASK,
     EDIT_TASK,
     REMOVE_TASK, TOGGLE_EDITABLE_TASK_MODAL,
-    TOGGLE_SUBTASK_MODAL_AND_SET_SUBTASK_ID,
+    TOGGLE_MODAL_AND_SET_PARENT_TASK_ID,
     TOGGLE_TASK_CONFIRM,
     TOGGLE_TASK_MODAL,
 } from "../actions/types";
@@ -13,12 +13,13 @@ import findNode from "../../helpers/findNode";
 const initialState = {
     isTaskModalOpen: false,
     isSubtaskModalOpen: false,
-    subtaskId: "",
+    parentTaskId: "",
     removableTaskId: "",
+    removableTaskParentId: "",
     isOpenTaskConfirm: false,
     isEditTaskModalOpen: false,
     editableTaskData: null,
-    task: [],
+    tasks: [],
 };
 
 const taskReducer = (state = initialState, action) => {
@@ -31,32 +32,35 @@ const taskReducer = (state = initialState, action) => {
                 isTaskModalOpen: !state.isTaskModalOpen,
             };
 
-        case TOGGLE_SUBTASK_MODAL_AND_SET_SUBTASK_ID:
+        case TOGGLE_MODAL_AND_SET_PARENT_TASK_ID:
             return {
                 ...state,
                 isSubtaskModalOpen: !state.isSubtaskModalOpen,
-                subtaskId: action.subtaskId
+                parentTaskId: action.parentTaskId
             };
 
         case ADD_TASK: {
             return {
                 ...state,
-                task: [...state.task, action.taskData],
+                tasks: [...state.tasks, action.taskData],
             };
         }
 
         case ADD_SUB_TASK: {
-            const parent = findNode(state.task, state.subtaskId);
-            const subtaskAddedTask = parent.children.push(action.subtaskData);
 
-            const newTask = state.task.map((task) => {
+            const parent = findNode(state.tasks, state.parentTaskId);
+            const subtaskData = { ...action.subtaskData };
+            subtaskData.parentId = state.parentTaskId;
+            const subtaskAddedTask = parent.children.push(subtaskData);
+
+            const newTask = state.tasks.map((task) => {
                 if (task.id !== subtaskAddedTask.id) return task;
                 return { ...subtaskAddedTask };
             });
 
             return {
                 ...state,
-                task: newTask,
+                tasks: newTask,
             };
         }
 
@@ -64,16 +68,26 @@ const taskReducer = (state = initialState, action) => {
             return {
                 ...state,
                 isOpenTaskConfirm: !state.isOpenTaskConfirm,
-                removableTaskId: action.removableTaskId,
+                removableTaskId: action.payload.removableTaskId,
+                removableTaskParentId: action.payload.removableTaskParentId,
             };
         }
 
         case REMOVE_TASK: {
-            const task = state.task.filter(task => task.id !== state.removableTaskId);
+
+            let tasks = state.tasks;
+
+            if (!state.removableTaskParentId) {
+                tasks = tasks.filter(task => task.id !== state.removableTaskId);
+            } else {
+                const parent = findNode(tasks, state.removableTaskParentId);
+                const filteredSubtasks = parent.children.filter(task => task.id !== state.removableTaskId);
+                parent.children = filteredSubtasks;
+            }
 
             return {
                 ...state,
-                task,
+                tasks,
                 isOpenTaskConfirm: !state.isOpenTaskConfirm,
                 removableTaskId: "",
             };
@@ -88,15 +102,28 @@ const taskReducer = (state = initialState, action) => {
         }
 
         case EDIT_TASK: {
-            const newTask = state.task.map((task) => {
-                if (task.id !== action.taskData.id) return task;
 
-                return { ...action.taskData };
-            });
+            let newTasks = [...state.tasks];
+
+            if (!action.taskData.parentId) {
+                newTasks = newTasks.map((task) => {
+                    if (task.id !== action.taskData.id) return task;
+
+                    return { ...action.taskData };
+                });
+            } else {
+                const parent = findNode(newTasks, action.taskData.parentId);
+                const changedSubTasks = parent.children.map((child) => {
+                    if (child.id !== action.taskData.id) return child;
+
+                    return { ...action.taskData };
+                });
+                parent.children = changedSubTasks;
+            }
 
             return {
                 ...state,
-                task: newTask,
+                tasks: newTasks,
                 isEditTaskModalOpen: !state.isEditTaskModalOpen,
             };
         }
@@ -104,7 +131,7 @@ const taskReducer = (state = initialState, action) => {
         case ADD_DRAGGABLE_TASK_TO_TASKS: {
             return {
                 ...state,
-                task: [...state.task, action.task],
+                tasks: [...state.tasks, action.task],
             };
         }
 

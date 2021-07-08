@@ -8,11 +8,11 @@ import TaskItem from "./TaskItem";
 const Search = () => {
     const [searchValue, setSearchValue] = useState('');
     const [foundTasks, setFoundTasks] = useState([]);
-    const task = useSelector(state => state.taskReducer.task);
+    const tasks = useSelector(state => state.taskReducer.tasks);
 
     const handleSetSearchValue = (e) => {
         setSearchValue(e.target.value);
-        setFoundTasks(task);
+        setFoundTasks(tasks);
     };
 
     const filteredTasks = foundTasks.filter((taskItem) => {

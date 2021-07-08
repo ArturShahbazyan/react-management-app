@@ -10,7 +10,7 @@ import {
     EDIT_TASK, REMOVE_TASK,
     SET_PROJECT_TASK_ID,
     TOGGLE_EDITABLE_TASK_MODAL,
-    TOGGLE_SUBTASK_MODAL_AND_SET_SUBTASK_ID,
+    TOGGLE_MODAL_AND_SET_PARENT_TASK_ID,
     TOGGLE_TASK_CONFIRM,
     TOGGLE_TASK_MODAL,
 } from "../../redux/actions/types";
@@ -25,7 +25,7 @@ const ProjectDetail = () => {
     const projectDetail = useSelector(state => state.projectReducer.projectDetail);
     const isTaskModalOpen = useSelector(state => state.taskReducer.isTaskModalOpen);
     const isSubtaskModalOpen = useSelector(state => state.taskReducer.isSubtaskModalOpen);
-    const task = useSelector(state => state.taskReducer.task);
+    const tasks = useSelector(state => state.taskReducer.tasks);
     const isOpenTaskConfirm = useSelector(state => state.taskReducer.isOpenTaskConfirm);
     const editableTaskData = useSelector(state => state.taskReducer.editableTaskData);
     const isEditTaskModalOpen = useSelector(state => state.taskReducer.isEditTaskModalOpen);
@@ -34,8 +34,8 @@ const ProjectDetail = () => {
         dispatch({ type: TOGGLE_TASK_MODAL });
     };
 
-    const handleToggleSubtaskModalAndGetSubtaskId = (subtaskId) => {
-        dispatch({ type: TOGGLE_SUBTASK_MODAL_AND_SET_SUBTASK_ID, subtaskId });
+    const handleToggleModalAndGetParentId = (parentTaskId) => {
+        dispatch({ type: TOGGLE_MODAL_AND_SET_PARENT_TASK_ID, parentTaskId });
     };
 
     const receiveTaskData = (taskData) => {
@@ -48,11 +48,11 @@ const ProjectDetail = () => {
 
     const receiveSubtaskData = (subtaskData) => {
         dispatch({ type: ADD_SUB_TASK, subtaskData });
-        dispatch({ type: TOGGLE_SUBTASK_MODAL_AND_SET_SUBTASK_ID });
+        dispatch({ type: TOGGLE_MODAL_AND_SET_PARENT_TASK_ID });
     };
 
-    const toggleTaskConfirmAndSendId = (removableTaskId) => {
-        dispatch({ type: TOGGLE_TASK_CONFIRM, removableTaskId });
+    const toggleTaskConfirmAndSendId = (removableTaskId, removableTaskParentId) => {
+        dispatch({ type: TOGGLE_TASK_CONFIRM, payload: { removableTaskId, removableTaskParentId } });
     };
 
     const removeTask = () => {
@@ -61,11 +61,11 @@ const ProjectDetail = () => {
 
     const toggleEditModalAndSendEditableData = (editableTaskData) => {
         dispatch({ type: TOGGLE_EDITABLE_TASK_MODAL, editableTaskData })
-    }
+    };
 
     const editTask = (taskData) => {
         dispatch({ type: EDIT_TASK, taskData });
-    }
+    };
 
     const handleOnDrop = (e) => {
         let task = JSON.parse(e.dataTransfer.getData("task"));
@@ -76,13 +76,13 @@ const ProjectDetail = () => {
         dispatch({ type: SET_PROJECT_TASK_ID, payload: { taskId, projectId } });
     };
 
-    const taskTree = task.map(parentTask => {
-        for (let i = 0; i < projectDetail.task.length; i++) {
-            if (parentTask.id === projectDetail.task[i]) {
+    const taskTree = tasks.map(parentTask => {
+        for (let i = 0; i < projectDetail.tasks.length; i++) {
+            if (parentTask.id === projectDetail.tasks[i]) {
                 return <Tree
                     key={ parentTask.id }
                     parentTask={ parentTask }
-                    handleToggleSubtaskModalAndGetSubtaskId={ handleToggleSubtaskModalAndGetSubtaskId }
+                    handleToggleModalAndGetParentId={ handleToggleModalAndGetParentId }
                     toggleTaskConfirmAndSendId={ toggleTaskConfirmAndSendId }
                     toggleEditModalAndSendEditableData={ toggleEditModalAndSendEditableData }
                 />;
@@ -91,9 +91,9 @@ const ProjectDetail = () => {
         return null;
     });
 
-    const taskList = task.map(task => {
-        for (let i = 0; i < projectDetail.task.length; i++) {
-            if (projectDetail.task[i] === task.id) {
+    const taskList = tasks.map(task => {
+        for (let i = 0; i < projectDetail.tasks.length; i++) {
+            if (projectDetail.tasks[i] === task.id) {
                 return <ProjectTaskList
                     key={ task.id }
                     name={ task.name }
@@ -146,7 +146,7 @@ const ProjectDetail = () => {
                             handleToggleTaskModal :
                             isEditTaskModalOpen ?
                                 toggleEditModalAndSendEditableData :
-                                handleToggleSubtaskModalAndGetSubtaskId
+                                handleToggleModalAndGetParentId
                     }
                     show={ isTaskModalOpen || isSubtaskModalOpen || isEditTaskModalOpen }
                     sendData={ isTaskModalOpen ?

@@ -12,7 +12,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 const Node = ({
                   nodes,
                   parentTask,
-                  handleToggleSubtaskModalAndGetSubtaskId,
+                  handleToggleModalAndGetParentId,
                   toggleTaskConfirmAndSendId,
                   toggleEditModalAndSendEditableData,
               }) => {
@@ -23,12 +23,13 @@ const Node = ({
     };
 
     const toggleModalAndSendId = () => {
-        handleToggleSubtaskModalAndGetSubtaskId(parentTask.id);
+        handleToggleModalAndGetParentId(parentTask.id);
     };
 
     const handleToggleTaskConfirmAndSendId = () => {
         const removableTaskId = parentTask.id;
-        toggleTaskConfirmAndSendId(removableTaskId);
+        const removableTaskParentId = parentTask.parentId;
+        toggleTaskConfirmAndSendId(removableTaskId, removableTaskParentId);
     };
 
     const handleToggleEditModalAndSendEditableData = () => {
