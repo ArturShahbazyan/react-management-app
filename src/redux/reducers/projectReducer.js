@@ -10,7 +10,6 @@ import {
 } from "../actions/types";
 import { initialProjectState } from "./initialState/initialProjectState";
 
-
 const projectReducer = (state = initialProjectState, action) => {
 
     switch (action.type) {

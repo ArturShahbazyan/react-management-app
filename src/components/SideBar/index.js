@@ -9,6 +9,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { TOGGLE_SIDEBAR } from "../../redux/actions/types";
 import { connect } from "react-redux";
+import { useEffect, useState } from "react";
 
 const sidebarList = [
     {
@@ -25,17 +26,34 @@ const sidebarList = [
 
 const SideBar = ({ isSidebarOpen, toggleSidebar }) => {
 
+    const [isMinimize, setMinimize] = useState(false);
+
+    useEffect(() => {
+        const handleMinimize = () => {
+            if (document.documentElement.scrollTop > 20) setMinimize(true);
+            if (document.documentElement.scrollTop < 2) setMinimize(false);
+        };
+
+        window.addEventListener("scroll", handleMinimize);
+        return () => window.removeEventListener("scroll", handleMinimize);
+    }, []);
+
     return (
         <div>
-            <div className={ style.navbar }>
-                <Link to='#' className={ style["menu-bars"] } onClick={ toggleSidebar }>
+            <div className={ `${ style.navbar } ${ isMinimize ? style["navbar-minimize"] : "" } ` }>
+                <Link
+                    to='#'
+                    className={ `${ style["menu-bars"] } ${ isMinimize ? style["menu-bars-minimize"] : "" }` }
+                    onClick={ toggleSidebar }
+                >
                     <FontAwesomeIcon icon={ faAlignLeft }/>
                 </Link>
             </div>
             <nav className={ `${ style["nav-menu"] } ${ isSidebarOpen ? style.active : "" }` }>
                 <ul className={ style["nav-menu-items"] } onClick={ toggleSidebar }>
                     <li className={ style["navbar-toggle"] }>
-                        <Link to='#' className={ style["menu-bars"] }>
+                        <Link to='#'
+                              className={ `${ style["menu-bars"] }` }>
                             <FontAwesomeIcon icon={ faTimes }/>
                         </Link>
                     </li>

@@ -107,19 +107,21 @@ const ProjectDetail = () => {
     return (
         <div className={ style["project-detail"] }>
             <Container fluid>
-                <h2>{ projectDetail && projectDetail.name }</h2>
-                <p>{ projectDetail && projectDetail.summary }</p>
-                <Row className={ style["add-task-row"] } onClick={ handleToggleTaskModal }>
-                    <div className={ style["add-task-content"] }>
-                        <span className="mr-1">Add Task</span>
-                        <img src={ addTaskIcon } alt="Add task" className={ style["add-task-icon"] }/>
+                <div className={ style["banner"] }>
+                    <h2>{ projectDetail && projectDetail.name }</h2>
+                    <p>{ projectDetail && projectDetail.summary }</p>
+                    <div className={ style["add-task-row"] } onClick={ handleToggleTaskModal }>
+                        <div className={ style["add-task-content"] }>
+                            <span className="mr-1">Add Task</span>
+                            <img src={ addTaskIcon } alt="Add task" className={ style["add-task-icon"] }/>
+                        </div>
                     </div>
-                </Row>
-                <hr/>
-                <Row className="mt-5">
+                </div>
+
+                <Row>
                     <Col
                         md={ 3 }
-                        className={ style["tasks-col"] }
+                        className={ `${ style["tasks-col"] } ${ style["left-panel"] } ${ style["panels"] }` }
                     >
                         { taskList }
                     </Col>
@@ -133,7 +135,7 @@ const ProjectDetail = () => {
                     </Col>
                     <Col
                         md={ 3 }
-                        className={ `${ style["tasks-col"] }` }
+                        className={ `${ style["tasks-col"] } ${ style["right-panel"] } ${ style["panels"] }` }
                     >
                         <Search/>
                     </Col>

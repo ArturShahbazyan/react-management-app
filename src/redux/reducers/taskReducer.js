@@ -19,7 +19,29 @@ const initialState = {
     isOpenTaskConfirm: false,
     isEditTaskModalOpen: false,
     editableTaskData: null,
-    tasks: [],
+    tasks: [
+        {
+            id: 1,
+            parentId: "",
+            name: "Task1",
+            description: "Task1 description",
+            children: [],
+        },
+        {
+            id: 2,
+            parentId: "",
+            name: "Task2",
+            description: "Task2 description",
+            children: [],
+        },
+        {
+            id: 3,
+            parentId: "",
+            name: "Task3",
+            description: "Task3 description",
+            children: [],
+        },
+    ],
 };
 
 const taskReducer = (state = initialState, action) => {
