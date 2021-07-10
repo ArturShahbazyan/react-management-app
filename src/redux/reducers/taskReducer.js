@@ -1,8 +1,8 @@
 import {
-    ADD_DRAGGABLE_TASK_TO_TASKS,
+    // ADD_DRAGGABLE_TASK_TO_TASKS,
     ADD_SUB_TASK,
     ADD_TASK,
-    EDIT_TASK,
+    EDIT_TASK, MOVE_TASK,
     REMOVE_TASK, TOGGLE_EDITABLE_TASK_MODAL,
     TOGGLE_MODAL_AND_SET_PARENT_TASK_ID,
     TOGGLE_TASK_CONFIRM,
@@ -150,10 +150,10 @@ const taskReducer = (state = initialState, action) => {
             };
         }
 
-        case ADD_DRAGGABLE_TASK_TO_TASKS: {
+        case MOVE_TASK: {
             return {
                 ...state,
-                tasks: [...state.tasks, action.task],
+                tasks: action.movedTasks,
             };
         }
 

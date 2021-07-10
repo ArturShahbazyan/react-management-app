@@ -3,13 +3,18 @@ import arrowIcon from "../../../assets/images/arrowIcon.svg";
 import checkCircleIcon from "../../../assets/images/checkCircleIcon.svg";
 import plusIcon from "../../../assets/images/plusIcon.svg";
 import { faTrash, faEdit } from '@fortawesome/free-solid-svg-icons';
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import "./Node.css";
 import { Col, Row } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useDrag, useDrop } from "react-dnd";
+import { TASK } from "../../../redux/actions/types";
 
 const Node = ({
+                  moveTask,
+                  index,
+                  id,
                   nodes,
                   parentTask,
                   handleToggleModalAndGetParentId,
@@ -17,6 +22,52 @@ const Node = ({
                   toggleEditModalAndSendEditableData,
               }) => {
     const [isCollapsed, setCollapse] = useState(true);
+
+    const ref = useRef(null);
+    const [{ handlerId, }, drop] = useDrop({
+        accept: TASK,
+        collect(monitor) {
+            return {
+                handlerId: monitor.getHandlerId(),
+            };
+        },
+
+        hover(item, monitor) {
+            if (!ref.current) {
+                return;
+            }
+            const dragIndex = item.index;
+            const hoverIndex = index;
+
+            if (dragIndex === hoverIndex) {
+                return;
+            }
+
+            const hoverBoundingRect = ref.current?.getBoundingClientRect();
+            const hoverMiddleY = (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2;
+            const clientOffset = monitor.getClientOffset();
+            const hoverClientY = clientOffset.y - hoverBoundingRect.top;
+
+            if (dragIndex < hoverIndex && hoverClientY < hoverMiddleY) return;
+            if (dragIndex > hoverIndex && hoverClientY > hoverMiddleY) return;
+
+            moveTask(dragIndex, hoverIndex);
+            item.index = hoverIndex;
+        }
+    });
+
+    const [{ isDragging }, drag] = useDrag({
+        type: TASK,
+        item: () => {
+            return { id, index };
+        },
+        collect: (monitor) => ({
+            isDragging: monitor.isDragging()
+        })
+    });
+
+    const opacity = isDragging ? 0 : 1;
+    drag(drop(ref));
 
     const handleSetCollapse = () => {
         setCollapse(!isCollapsed);
@@ -46,7 +97,12 @@ const Node = ({
     }
 
     return (
-        <div className="tree-node">
+        <div
+            className="tree-node"
+            ref={ ref }
+            style={ { opacity } }
+            data-handler-id={ handlerId }
+        >
             <div className="tree-node-content mb-2">
                 <Row className="p-2">
                     <Col md={ 1 }>

@@ -2,6 +2,9 @@ import Node from "../Node";
 import React from "react";
 
 const Tree = ({
+                  moveTask,
+                  index,
+                  id,
                   parentTask,
                   handleToggleModalAndGetParentId,
                   toggleTaskConfirmAndSendId,
@@ -12,6 +15,9 @@ const Tree = ({
     if (parentTask.children) {
         nodes = parentTask.children.map((parentTask) => {
             return <Tree
+                moveTask={moveTask}
+                index={index}
+                id={id}
                 key={ parentTask.id }
                 parentTask={ parentTask }
                 handleToggleModalAndGetParentId={ handleToggleModalAndGetParentId }
@@ -24,6 +30,9 @@ const Tree = ({
     if (nodes) {
         return (
             <Node
+                moveTask={moveTask}
+                index={index}
+                id={id}
                 nodes={ nodes }
                 parentTask={ parentTask }
                 handleToggleModalAndGetParentId={ handleToggleModalAndGetParentId }

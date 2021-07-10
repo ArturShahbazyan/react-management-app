@@ -15,7 +15,6 @@ function App() {
                     <Route path='/project/:id' exact component={ ProjectDetail }/>
                     <Route path='/support' exact/>
                     <Redirect from='*' to='/projects'/>
-
                 </Switch>
             </div>
         </div>
