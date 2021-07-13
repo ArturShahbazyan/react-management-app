@@ -1,16 +1,15 @@
 import React, { useRef } from "react";
-import { Link } from "react-router-dom";
 import { Col, Row } from "react-bootstrap";
 import dragIcon from "../../assets/images/dragIcon.svg";
 import checkCircleIcon from "../../assets/images/checkCircleIcon.svg";
 import "../TreeLikeStructure/Node/Node.css";
 import { useDrag, useDrop } from "react-dnd";
-import { FOUNDTASK } from "../../redux/actions/types";
+import { FOUND_TASK } from "../../redux/actions/types";
 
 const TaskItem = ({ task, id, index, moveFoundTask, }) => {
     const ref = useRef(null);
     const [{ handlerId, }, drop] = useDrop({
-        accept: FOUNDTASK,
+        accept: FOUND_TASK,
         collect(monitor) {
             return {
                 handlerId: monitor.getHandlerId(),
@@ -42,7 +41,7 @@ const TaskItem = ({ task, id, index, moveFoundTask, }) => {
     });
 
     const [{ isDragging }, drag] = useDrag({
-        type: FOUNDTASK,
+        type: FOUND_TASK,
         item: () => {
             return { id, index };
         },
@@ -70,9 +69,9 @@ const TaskItem = ({ task, id, index, moveFoundTask, }) => {
                         <img src={ dragIcon } alt="Drag"/>
                     </Col>
                     <Col md={ 9 }>
-                        <Link to="#">
+                        <div className="text-primary">
                             { task.name }
-                        </Link>
+                        </div>
                     </Col>
                     <Col md={ 1 }>
                         <div>

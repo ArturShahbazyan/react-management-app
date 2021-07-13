@@ -13,6 +13,8 @@ code {
 }
 
 input[type="text"]:focus,
+input[type="time"]:focus,
+select:focus,
 textarea:focus {
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1) !important;
   outline: 0 none;

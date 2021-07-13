@@ -4,6 +4,7 @@ import { Switch, Route } from 'react-router-dom';
 import Project from "./components/Project";
 import { Redirect } from "react-router";
 import ProjectDetail from "./components/Project/ProjectDetail";
+import Task from "./components/Task";
 
 function App() {
     return (
@@ -13,6 +14,7 @@ function App() {
                 <Switch>
                     <Route path='/projects' exact component={ Project }/>
                     <Route path='/project/:id' exact component={ ProjectDetail }/>
+                    <Route path='/project/task/:id' exact component={ Task }/>
                     <Route path='/support' exact/>
                     <Redirect from='*' to='/projects'/>
                 </Switch>

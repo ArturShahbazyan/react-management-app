@@ -34,9 +34,9 @@ const Search = () => {
         return <TaskItem
             task={ task }
             key={ task.id }
-            id={task.id}
-            index={index}
-            moveFoundTask={moveFoundTask}
+            id={ task.id }
+            index={ index }
+            moveFoundTask={ moveFoundTask }
         />
     });
 

@@ -29,6 +29,17 @@ const ProjectDetail = () => {
     const editableTaskData = useSelector(state => state.taskReducer.editableTaskData);
     const isEditTaskModalOpen = useSelector(state => state.taskReducer.isEditTaskModalOpen);
 
+    const moveTask = useCallback((dragIndex, hoverIndex) => {
+        const dragTask = tasks[dragIndex];
+        const movedTasks = update(tasks, {
+            $splice: [
+                [dragIndex, 1],
+                [hoverIndex, 0, dragTask],
+            ],
+        });
+        dispatch({ type: MOVE_TASK, movedTasks });
+    }, [tasks, dispatch]);
+
     const handleToggleTaskModal = () => {
         dispatch({ type: TOGGLE_TASK_MODAL });
     };
@@ -66,24 +77,13 @@ const ProjectDetail = () => {
         dispatch({ type: EDIT_TASK, taskData });
     };
 
-    const moveTask = useCallback((dragIndex, hoverIndex) => {
-        const dragTask = tasks[dragIndex];
-        const movedTasks = update(tasks, {
-            $splice: [
-                [dragIndex, 1],
-                [hoverIndex, 0, dragTask],
-            ],
-        });
-        dispatch({type:MOVE_TASK, movedTasks});
-    }, [tasks, dispatch]);
-
     const taskTree = tasks.map((parentTask, index) => {
         for (let i = 0; i < projectDetail.tasks.length; i++) {
             if (parentTask.id === projectDetail.tasks[i]) {
                 return <Tree
-                    moveTask={moveTask}
-                    index={index}
-                    id={parentTask.id}
+                    moveTask={ moveTask }
+                    index={ index }
+                    id={ parentTask.id }
                     key={ parentTask.id }
                     parentTask={ parentTask }
                     handleToggleModalAndGetParentId={ handleToggleModalAndGetParentId }
@@ -100,7 +100,7 @@ const ProjectDetail = () => {
             if (projectDetail.tasks[i] === task.id) {
                 return <ProjectTaskList
                     key={ task.id }
-                    name={ task.name }
+                    task={ task }
                     description={ task.description }
                 />
             }

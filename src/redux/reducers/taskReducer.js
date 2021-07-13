@@ -1,9 +1,11 @@
 import {
-    // ADD_DRAGGABLE_TASK_TO_TASKS,
     ADD_SUB_TASK,
     ADD_TASK,
-    EDIT_TASK, MOVE_TASK,
-    REMOVE_TASK, TOGGLE_EDITABLE_TASK_MODAL,
+    EDIT_TASK,
+    MOVE_TASK,
+    REMOVE_TASK,
+    SET_TASK_DETAIL,
+    TOGGLE_EDITABLE_TASK_MODAL,
     TOGGLE_MODAL_AND_SET_PARENT_TASK_ID,
     TOGGLE_TASK_CONFIRM,
     TOGGLE_TASK_MODAL,
@@ -19,6 +21,7 @@ const initialState = {
     isOpenTaskConfirm: false,
     isEditTaskModalOpen: false,
     editableTaskData: null,
+    taskDetail: null,
     tasks: [
         {
             id: 1,
@@ -26,6 +29,11 @@ const initialState = {
             name: "Task1",
             description: "Task1 description",
             children: [],
+            creationDate: new Date(),
+            assignee: "John",
+            estimatedTime: "09:00",
+            status: "in progress",
+            workedTime: "10:00",
         },
         {
             id: 2,
@@ -33,6 +41,11 @@ const initialState = {
             name: "Task2",
             description: "Task2 description",
             children: [],
+            creationDate: new Date(),
+            assignee: "John",
+            estimatedTime: "10:00",
+            status: "in progress",
+            workedTime: "20:00",
         },
         {
             id: 3,
@@ -40,6 +53,11 @@ const initialState = {
             name: "Task3",
             description: "Task3 description",
             children: [],
+            creationDate: new Date(),
+            assignee: "John",
+            estimatedTime: "12:00",
+            status: "in progress",
+            workedTime: "20:00",
         },
     ],
 };
@@ -156,6 +174,12 @@ const taskReducer = (state = initialState, action) => {
                 tasks: action.movedTasks,
             };
         }
+
+        case SET_TASK_DETAIL:
+            return {
+                ...state,
+                taskDetail: action.payload,
+            };
 
         default:
             return state;

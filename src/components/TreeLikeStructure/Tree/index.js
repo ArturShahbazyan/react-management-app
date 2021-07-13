@@ -15,9 +15,9 @@ const Tree = ({
     if (parentTask.children) {
         nodes = parentTask.children.map((parentTask) => {
             return <Tree
-                moveTask={moveTask}
-                index={index}
-                id={id}
+                moveTask={ moveTask }
+                index={ index }
+                id={ id }
                 key={ parentTask.id }
                 parentTask={ parentTask }
                 handleToggleModalAndGetParentId={ handleToggleModalAndGetParentId }
@@ -30,9 +30,9 @@ const Tree = ({
     if (nodes) {
         return (
             <Node
-                moveTask={moveTask}
-                index={index}
-                id={id}
+                moveTask={ moveTask }
+                index={ index }
+                id={ id }
                 nodes={ nodes }
                 parentTask={ parentTask }
                 handleToggleModalAndGetParentId={ handleToggleModalAndGetParentId }

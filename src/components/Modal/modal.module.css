@@ -2,3 +2,16 @@
   color: #6802ec;
   margin-left: 25px;
 }
+
+label {
+  margin-bottom: 0.1rem;
+  font-size: 1rem;
+}
+
+input:not([type="search"]) {
+  font-size: 0.9rem !important;
+}
+
+.form-group {
+  margin-bottom: 0.7rem;
+}

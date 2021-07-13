@@ -1,6 +1,8 @@
 import { Form, Button, Modal, Col } from 'react-bootstrap';
 import { faTasks } from '@fortawesome/free-solid-svg-icons';
 import React, { useEffect, useState } from "react";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 import style from "./modal.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import idGenerator from "../../helpers/idGenerator";
@@ -19,6 +21,11 @@ const TaskModal = ({
         name: "",
         description: "",
         children: [],
+        creationDate: new Date(),
+        assignee: "",
+        estimatedTime: "",
+        status: "",
+        workedTime: "",
     });
 
     useEffect(() => {
@@ -36,6 +43,11 @@ const TaskModal = ({
                 parentId: "",
                 name: "",
                 description: "",
+                creationDate: new Date(),
+                assignee: "",
+                estimatedTime: "",
+                status: "",
+                workedTime: "",
                 children: [],
             });
         }
@@ -50,9 +62,15 @@ const TaskModal = ({
         });
     };
 
+    const handleChangeDate = (date) => {
+        setTaskState({
+            ...taskState,
+            creationDate: date,
+        });
+    };
+
     const handleSendTaskData = (e) => {
         if (e.type === 'keypress' && e.key !== 'Enter') return;
-        if (!taskState.name || !taskState.description) return;
 
         sendData(taskState);
 
@@ -61,6 +79,11 @@ const TaskModal = ({
             parentId: "",
             name: "",
             description: "",
+            creationDate: new Date(),
+            assignee: "",
+            estimatedTime: "",
+            status: "",
+            workedTime: "",
             children: [],
         });
     };
@@ -83,6 +106,7 @@ const TaskModal = ({
             </Modal.Header>
             <Modal.Body>
                 <Form.Group controlId="formBasicTaskName">
+                    <Form.Label>Name</Form.Label>
                     <Form.Control
                         type="text"
                         placeholder="name"
@@ -92,18 +116,70 @@ const TaskModal = ({
                         onKeyPress={ handleSendTaskData }
                     />
                 </Form.Group>
+                <Form.Group controlId="formBasicTaskAssignee">
+                    <Form.Label>Assignee</Form.Label>
+                    <Form.Control
+                        type="text"
+                        placeholder="assignee"
+                        name="assignee"
+                        value={ taskState.assignee }
+                        onChange={ handleChangeTaskData }
+                        onKeyPress={ handleSendTaskData }
+                    />
+                </Form.Group>
                 <Form.Group controlId="formBasicTaskDescription">
+                    <Form.Label>Description</Form.Label>
                     <Form.Control
                         as="textarea"
-                        rows={ 4 }
+                        rows={ 2 }
                         placeholder="description"
-                        className="my-2"
                         style={ { resize: 'none' } }
                         name="description"
                         value={ taskState.description }
                         onChange={ handleChangeTaskData }
                         onKeyPress={ handleSendTaskData }
                     />
+                </Form.Group>
+                <Form.Group controlId="formBasicTaskDescription">
+                    <Form.Label className="d-block">Date</Form.Label>
+                    <DatePicker
+                        selected={ taskState.creationDate }
+                        onChange={ (date) => handleChangeDate(date) }
+                        className="form-control"
+                    />
+                </Form.Group>
+                <Form.Group controlId="formBasicTaskEstimatedTime">
+                    <Form.Label>Estimated Time</Form.Label>
+                    <Form.Control
+                        type="time"
+                        name="estimatedTime"
+                        value={ taskState.estimatedTime }
+                        onChange={ handleChangeTaskData }
+                        onKeyPress={ handleSendTaskData }
+                    />
+                </Form.Group>
+                <Form.Group controlId="formBasicTaskWorkedTime">
+                    <Form.Label>Worked Time</Form.Label>
+                    <Form.Control
+                        type="time"
+                        name="workedTime"
+                        value={ taskState.workedTime }
+                        onChange={ handleChangeTaskData }
+                        onKeyPress={ handleSendTaskData }
+                    />
+                </Form.Group>
+                <Form.Group controlId="formGridState">
+                    <Form.Label>Status</Form.Label>
+                    <Form.Control as="select"
+                                  name="status"
+                                  onChange={ handleChangeTaskData }
+                                  onKeyPress={ handleSendTaskData }
+                                  value={ taskState.status }
+                    >
+                        <option value="in progress">in progress</option>
+                        <option value="to do">to do</option>
+                        <option value="done">done</option>
+                    </Form.Control>
                 </Form.Group>
                 <Form.Row>
                     <Col className="d-flex justify-content-center my-3">
@@ -115,7 +191,6 @@ const TaskModal = ({
                         </Button>
                         <Button variant="info"
                                 onClick={ handleSendTaskData }
-                                disabled={ !(taskState.name && taskState.description) }
                         >
                             {
                                 isTaskModalOpen ?

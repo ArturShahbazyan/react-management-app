@@ -9,7 +9,8 @@ import { Col, Row } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useDrag, useDrop } from "react-dnd";
-import { TASK } from "../../../redux/actions/types";
+import { SET_TASK_DETAIL, TASK } from "../../../redux/actions/types";
+import { useDispatch } from "react-redux";
 
 const Node = ({
                   moveTask,
@@ -21,6 +22,7 @@ const Node = ({
                   toggleTaskConfirmAndSendId,
                   toggleEditModalAndSendEditableData,
               }) => {
+    const dispatch = useDispatch();
     const [isCollapsed, setCollapse] = useState(true);
 
     const ref = useRef(null);
@@ -96,6 +98,10 @@ const Node = ({
         containerClassName += ' tree-node-children-collapsed';
     }
 
+    const handleSetTaskDetail = () => dispatch({
+        type: SET_TASK_DETAIL, payload: { ...parentTask }
+    });
+
     return (
         <div
             className="tree-node"
@@ -115,7 +121,7 @@ const Node = ({
                         </div>
                     </Col>
                     <Col md={ 6 }>
-                        <Link to="#">
+                        <Link to={ `/project/task/${ parentTask.id }` } onClick={ handleSetTaskDetail }>
                             { parentTask.name }
                         </Link>
                     </Col>
