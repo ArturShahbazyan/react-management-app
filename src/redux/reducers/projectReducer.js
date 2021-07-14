@@ -5,7 +5,8 @@ import {
     REMOVE_PROJECT,
     SET_ADD_PROJECT,
     SET_EDITABLE_PROJECT,
-    SET_PROJECT_DETAIL, SET_PROJECT_TASK_ID,
+    SET_PROJECT_DETAIL,
+    SET_PROJECT_TASK_ID,
     SET_REMOVABLE_PROJECT_ID,
 } from "../actions/types";
 import { initialProjectState } from "./initialState/initialProjectState";

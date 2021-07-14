@@ -5,12 +5,15 @@ import plusIcon from "../../../assets/images/plusIcon.svg";
 import { faTrash, faEdit } from '@fortawesome/free-solid-svg-icons';
 import React, { useRef, useState } from "react";
 import "./Node.css";
-import { Col, Row } from "react-bootstrap";
+import { Col, Row, } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useDrag, useDrop } from "react-dnd";
 import { SET_TASK_DETAIL, TASK } from "../../../redux/actions/types";
 import { useDispatch } from "react-redux";
+
+let Scroll = require('react-scroll');
+let Element = Scroll.Element;
 
 const Node = ({
                   moveTask,
@@ -109,6 +112,7 @@ const Node = ({
             style={ { opacity } }
             data-handler-id={ handlerId }
         >
+            <Element name={parentTask.id}>
             <div className="tree-node-content mb-2">
                 <Row className="p-2">
                     <Col md={ 1 }>
@@ -148,10 +152,34 @@ const Node = ({
                         </div>
                     </Col>
                 </Row>
+                <hr/>
+                <Row className="my-3 task-detail-row">
+                    <Col md={ 4 }>
+                        <div>{ parentTask.description }</div>
+                    </Col>
+                    <Col md={ 4 }>
+                        <div>{ parentTask.creationDate.toISOString().slice(0, 10) }</div>
+                    </Col>
+                    <Col md={ 4 }>
+                        <div>{ parentTask.assignee }</div>
+                    </Col>
+                </Row>
+                <Row className="task-detail-row">
+                    <Col md={ 4 }>
+                        <div>{ parentTask.estimatedTime }</div>
+                    </Col>
+                    <Col md={ 4 }>
+                        <div className="mb-2">{ parentTask.workedTime }</div>
+                    </Col>
+                    <Col md={ 4 }>
+                        <div className="mb-2">{ parentTask.status }</div>
+                    </Col>
+                </Row>
             </div>
             <div className={ containerClassName }>
                 { nodes }
             </div>
+            </Element>
         </div>
     );
 };

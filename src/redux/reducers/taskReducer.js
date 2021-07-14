@@ -24,7 +24,7 @@ const initialState = {
     taskDetail: null,
     tasks: [
         {
-            id: 1,
+            id: "1",
             parentId: "",
             name: "Task1",
             description: "Task1 description",
@@ -36,7 +36,7 @@ const initialState = {
             workedTime: "10:00",
         },
         {
-            id: 2,
+            id: "2",
             parentId: "",
             name: "Task2",
             description: "Task2 description",
@@ -48,7 +48,7 @@ const initialState = {
             workedTime: "20:00",
         },
         {
-            id: 3,
+            id: "3",
             parentId: "",
             name: "Task3",
             description: "Task3 description",
