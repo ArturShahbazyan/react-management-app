@@ -1,6 +1,6 @@
 .tree-node {
-  overflow-y: hidden;
   cursor: pointer;
+  overflow: hidden;
 }
 
 .tree-node-children {
@@ -31,10 +31,11 @@
 
 .tree-node-content {
   border-radius: 5px;
-  color: #5b5f66;
   box-shadow: 0px 1px 3px -1px #9f9797;
+  color: #5b5f66;
   border: 1px solid #cbc1c1;
   padding: 15px;
+  background-color: #ffffff;
 }
 
 .tree-node-content:hover {
@@ -81,5 +82,5 @@
 }
 
 .task-detail-row {
-  color: #0099ff;
+  color: #1a4046;
 }

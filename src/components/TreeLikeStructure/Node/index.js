@@ -27,8 +27,8 @@ const Node = ({
               }) => {
     const dispatch = useDispatch();
     const [isCollapsed, setCollapse] = useState(true);
-
     const ref = useRef(null);
+
     const [{ handlerId, }, drop] = useDrop({
         accept: TASK,
         collect(monitor) {
@@ -41,6 +41,7 @@ const Node = ({
             if (!ref.current) {
                 return;
             }
+
             const dragIndex = item.index;
             const hoverIndex = index;
 
@@ -66,9 +67,10 @@ const Node = ({
         item: () => {
             return { id, index };
         },
+
         collect: (monitor) => ({
             isDragging: monitor.isDragging()
-        })
+        }),
     });
 
     const opacity = isDragging ? 0 : 1;
@@ -112,73 +114,76 @@ const Node = ({
             style={ { opacity } }
             data-handler-id={ handlerId }
         >
-            <Element name={parentTask.id}>
-            <div className="tree-node-content mb-2">
-                <Row className="p-2">
-                    <Col md={ 1 }>
-                        <img src={ dragIcon } alt="Drag"/>
-                    </Col>
-                    <Col md={ 1 }>
-                        <div className={ arrowClassName } onClick={ handleSetCollapse }>
-                            { nodes.length === 0 ? <div className="emptiness"></div> :
-                                <img src={ arrowIcon } alt="Arrow"/> }
-                        </div>
-                    </Col>
-                    <Col md={ 6 }>
-                        <Link to={ `/project/task/${ parentTask.id }` } onClick={ handleSetTaskDetail }>
-                            { parentTask.name }
-                        </Link>
-                    </Col>
-                    <Col md={ 1 }>
-                        <div>
-                            <img src={ checkCircleIcon } alt="Check circle"/>
-                        </div>
-                    </Col>
-                    <Col xs={ 12 } md={ 2 }>
-                        <FontAwesomeIcon
-                            icon={ faTrash }
-                            className="fa-trash-task"
-                            onClick={ handleToggleTaskConfirmAndSendId }
-                        />
-                        <FontAwesomeIcon
-                            icon={ faEdit }
-                            className="fa-edit-task"
-                            onClick={ handleToggleEditModalAndSendEditableData }
-                        />
-                    </Col>
-                    <Col xs={ 12 } md={ 1 }>
-                        <div className="plus-row" onClick={ toggleModalAndSendId }>
-                            <img src={ plusIcon } alt="Plus"/>
-                        </div>
-                    </Col>
-                </Row>
-                <hr/>
-                <Row className="my-3 task-detail-row">
-                    <Col md={ 4 }>
-                        <div>{ parentTask.description }</div>
-                    </Col>
-                    <Col md={ 4 }>
-                        <div>{ parentTask.creationDate.toISOString().slice(0, 10) }</div>
-                    </Col>
-                    <Col md={ 4 }>
-                        <div>{ parentTask.assignee }</div>
-                    </Col>
-                </Row>
-                <Row className="task-detail-row">
-                    <Col md={ 4 }>
-                        <div>{ parentTask.estimatedTime }</div>
-                    </Col>
-                    <Col md={ 4 }>
-                        <div className="mb-2">{ parentTask.workedTime }</div>
-                    </Col>
-                    <Col md={ 4 }>
-                        <div className="mb-2">{ parentTask.status }</div>
-                    </Col>
-                </Row>
-            </div>
-            <div className={ containerClassName }>
-                { nodes }
-            </div>
+            <Element name={ parentTask.id }>
+                <div className="tree-node-content mb-2">
+                    <Row className="p-2">
+                        <Col md={ 1 }>
+                            <img src={ dragIcon } alt="Drag"/>
+                        </Col>
+                        <Col md={ 1 }>
+                            <div
+                                className={ arrowClassName }
+                                onClick={ handleSetCollapse }
+                            >
+                                { nodes.length === 0 ? <div className="emptiness"></div> :
+                                    <img src={ arrowIcon } alt="Arrow"/> }
+                            </div>
+                        </Col>
+                        <Col md={ 6 }>
+                            <Link to={ `/project/task/${ parentTask.id }` } onClick={ handleSetTaskDetail }>
+                                { parentTask.name }
+                            </Link>
+                        </Col>
+                        <Col md={ 1 }>
+                            <div>
+                                <img src={ checkCircleIcon } alt="Check circle"/>
+                            </div>
+                        </Col>
+                        <Col xs={ 12 } md={ 2 }>
+                            <FontAwesomeIcon
+                                icon={ faTrash }
+                                className="fa-trash-task"
+                                onClick={ handleToggleTaskConfirmAndSendId }
+                            />
+                            <FontAwesomeIcon
+                                icon={ faEdit }
+                                className="fa-edit-task"
+                                onClick={ handleToggleEditModalAndSendEditableData }
+                            />
+                        </Col>
+                        <Col xs={ 12 } md={ 1 }>
+                            <div className="plus-row" onClick={ toggleModalAndSendId }>
+                                <img src={ plusIcon } alt="Plus"/>
+                            </div>
+                        </Col>
+                    </Row>
+                    <hr/>
+                    <Row className="my-3 task-detail-row">
+                        <Col md={ 4 }>
+                            <div>{ parentTask.description }</div>
+                        </Col>
+                        <Col md={ 4 }>
+                            <div>{ parentTask.creationDate.toISOString().slice(0, 10) }</div>
+                        </Col>
+                        <Col md={ 4 }>
+                            <div>{ parentTask.assignee }</div>
+                        </Col>
+                    </Row>
+                    <Row className="task-detail-row">
+                        <Col md={ 4 }>
+                            <div>{ parentTask.estimatedTime }</div>
+                        </Col>
+                        <Col md={ 4 }>
+                            <div className="mb-2">{ parentTask.workedTime }</div>
+                        </Col>
+                        <Col md={ 4 }>
+                            <div className="mb-2">{ parentTask.status }</div>
+                        </Col>
+                    </Row>
+                </div>
+                <div className={ containerClassName }>
+                    { nodes }
+                </div>
             </Element>
         </div>
     );

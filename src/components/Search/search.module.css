@@ -12,3 +12,7 @@
 .search-icon {
   margin-top: 9px;
 }
+
+.tree-node-content {
+  line-height: 2px;
+}

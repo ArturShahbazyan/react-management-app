@@ -1,9 +1,16 @@
 .tasks-details {
   margin: 0 auto;
+  min-height: 30rem;
+  height: auto;
+}
+
+.tasks-details>div {
+ border-radius: 5px;
+  min-height: 11rem;
+  height: auto;
 }
 
 .tasks-col {
-  height: 30rem;
   margin-top:30px;
 }
 
@@ -36,6 +43,11 @@
 .right-panel {
   right: 0;
   position: fixed;
+}
+
+.left-panel,
+.right-panel {
+  height: 30rem;
 }
 
 .banner {

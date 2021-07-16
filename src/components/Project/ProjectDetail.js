@@ -6,7 +6,7 @@ import Search from "../Search";
 import Tree from "../TreeLikeStructure/Tree";
 import {
     ADD_SUB_TASK, ADD_TASK,
-    EDIT_TASK, MOVE_TASK, REMOVE_TASK,
+    EDIT_TASK, FOUND_TASK, MOVE_TASK, REMOVE_TASK,
     SET_PROJECT_TASK_ID,
     TOGGLE_EDITABLE_TASK_MODAL,
     TOGGLE_MODAL_AND_SET_PARENT_TASK_ID,
@@ -18,6 +18,8 @@ import Confirm from "../Confirm";
 import React, { useCallback } from "react";
 import ProjectTaskList from "./ProjectTaskList";
 import update from "immutability-helper";
+import { useDrop } from "react-dnd";
+import idGenerator from "../../helpers/idGenerator";
 
 const ProjectDetail = () => {
     const dispatch = useDispatch();
@@ -39,6 +41,41 @@ const ProjectDetail = () => {
         });
         dispatch({ type: MOVE_TASK, movedTasks });
     }, [tasks, dispatch]);
+
+    const [{ isOver }, dropFoundTask] = useDrop(() => ({
+        accept: FOUND_TASK,
+        drop(item) {
+            const taskData = {
+                ...item.task,
+                id: idGenerator(),
+            }
+
+            const taskId = taskData.id;
+            const projectId = projectDetail.id;
+
+            dispatch({ type: SET_PROJECT_TASK_ID, payload: { taskId, projectId } });
+            dispatch({ type: ADD_TASK, taskData });
+        },
+        collect: (monitor) => ({
+            isOver: monitor.isOver(),
+            isOverCurrent: monitor.isOver({ shallow: true }),
+        }),
+    }));
+
+    const getStyle = (backgroundColor, boxShadow) => {
+        return {
+            backgroundColor,
+            boxShadow
+        };
+    };
+
+    let backgroundColor = '';
+    let boxShadow = '';
+
+    if (isOver) {
+        backgroundColor = 'rgba(0,0,0,0.1)';
+        boxShadow = '0px 0px 15px 2px rgba(0,0,0,0.2)';
+    }
 
     const handleToggleTaskModal = () => {
         dispatch({ type: TOGGLE_TASK_MODAL });
@@ -121,7 +158,6 @@ const ProjectDetail = () => {
                         </div>
                     </div>
                 </div>
-
                 <Row>
                     <Col
                         md={ 3 }
@@ -132,8 +168,12 @@ const ProjectDetail = () => {
                     <Col
                         md={ 6 }
                         className={ `${ style["tasks-details"] } ${ style["tasks-col"] }` }
+                        ref={ dropFoundTask }
+
                     >
-                        { taskTree }
+                        <div style={ getStyle(backgroundColor, boxShadow) }>
+                            { taskTree }
+                        </div>
                     </Col>
                     <Col
                         md={ 3 }
