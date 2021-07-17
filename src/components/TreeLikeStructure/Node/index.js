@@ -114,7 +114,7 @@ const Node = ({
             style={ { opacity } }
             data-handler-id={ handlerId }
         >
-            <Element name={ parentTask.id }>
+            <Element name={ parentTask.id.toString() }>
                 <div className="tree-node-content mb-2">
                     <Row className="p-2">
                         <Col md={ 1 }>

@@ -12,7 +12,7 @@ const ProjectTaskList = ({ task }) => {
     return (
         <div className="tree-node">
             <Link
-                to={ task.id }
+                to={ task.id.toString() }
                 offset={-215}
                 spy={true}
                 smooth={true}

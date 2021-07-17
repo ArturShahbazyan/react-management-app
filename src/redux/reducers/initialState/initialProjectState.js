@@ -12,7 +12,7 @@ export const initialProjectState = {
             name: 'Project 1',
             summary: 'Business project 1',
             date: new Date(),
-            tasks: ["1","2","3",],
+            tasks: [1,2,3],
         },
         {
             id: idGenerator(),

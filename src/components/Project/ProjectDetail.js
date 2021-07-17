@@ -45,10 +45,37 @@ const ProjectDetail = () => {
     const [{ isOver }, dropFoundTask] = useDrop(() => ({
         accept: FOUND_TASK,
         drop(item) {
-            const taskData = {
-                ...item.task,
-                id: idGenerator(),
+
+            const updateChildrenIds = (childrenData, childId) => {
+                const newData = childrenData.map((value) => {
+                    const { children } = value;
+                    const newValue = { ...value, id: idGenerator(), parentId: childId };
+
+                    if (children) {
+                        newValue.children = updateChildrenIds(value.children, newValue.id);
+                    }
+                    return newValue;
+                });
+                return newData;
+            };
+
+            const taskData = { ...item.task };
+            taskData.id = idGenerator();
+
+            if (taskData.children.length !== 0) {
+                taskData.children = taskData.children.map(child => {
+                    return {
+                        ...child,
+                        id: idGenerator(),
+                        parentId: taskData.id
+                    }
+                });
             }
+
+            taskData.children.map(child => {
+                child.children = updateChildrenIds(child.children, child.id);
+                return child.children;
+            });
 
             const taskId = taskData.id;
             const projectId = projectDetail.id;
