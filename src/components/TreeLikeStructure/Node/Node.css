@@ -5,7 +5,6 @@
 
 .tree-node-children {
   margin-left: 15px;
-  transition: 0.6s;
 }
 
 .tree-node-children-collapsed {
@@ -82,5 +81,6 @@
 }
 
 .task-detail-row {
-  color: #1a4046;
+  color: #14637b;
+  font-size: 0.9rem;
 }

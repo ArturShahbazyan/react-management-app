@@ -5,7 +5,7 @@ import plusIcon from "../../../assets/images/plusIcon.svg";
 import { faTrash, faEdit } from '@fortawesome/free-solid-svg-icons';
 import React, { useRef, useState } from "react";
 import "./Node.css";
-import { Col, Row, } from "react-bootstrap";
+import { Col, Collapse, Row, } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useDrag, useDrop } from "react-dnd";
@@ -36,7 +36,6 @@ const Node = ({
                 handlerId: monitor.getHandlerId(),
             };
         },
-
         hover(item, monitor) {
             if (!ref.current) {
                 return;
@@ -67,13 +66,13 @@ const Node = ({
         item: () => {
             return { id, index };
         },
-
         collect: (monitor) => ({
             isDragging: monitor.isDragging()
         }),
     });
 
     const opacity = isDragging ? 0 : 1;
+
     drag(drop(ref));
 
     const handleSetCollapse = () => {
@@ -110,12 +109,14 @@ const Node = ({
     return (
         <div
             className="tree-node"
-            ref={ ref }
-            style={ { opacity } }
             data-handler-id={ handlerId }
         >
             <Element name={ parentTask.id.toString() }>
-                <div className="tree-node-content mb-2">
+                <div
+                    className="tree-node-content mb-2"
+                    ref={ ref }
+                    style={ { opacity } }
+                >
                     <Row className="p-2">
                         <Col md={ 1 }>
                             <img src={ dragIcon } alt="Drag"/>
@@ -130,7 +131,10 @@ const Node = ({
                             </div>
                         </Col>
                         <Col md={ 6 }>
-                            <Link to={ `/project/task/${ parentTask.id }` } onClick={ handleSetTaskDetail }>
+                            <Link
+                                to={ `/project/task/${ parentTask.id }` }
+                                onClick={ handleSetTaskDetail }
+                            >
                                 { parentTask.name }
                             </Link>
                         </Col>
@@ -160,30 +164,54 @@ const Node = ({
                     <hr/>
                     <Row className="my-3 task-detail-row">
                         <Col md={ 4 }>
-                            <div>{ parentTask.description }</div>
+                            <div>
+                                <span className="mb-2">
+                                    <b>Description: </b>
+                                    { parentTask.description }
+                                </span>
+                            </div>
                         </Col>
                         <Col md={ 4 }>
-                            <div>{ parentTask.creationDate.toISOString().slice(0, 10) }</div>
+                            <span className="mb-2">
+                                <b>Creation Date: </b>
+                                { parentTask.creationDate.toISOString().slice(0, 10) }
+                            </span>
                         </Col>
                         <Col md={ 4 }>
-                            <div>{ parentTask.assignee }</div>
+                            <span className="mb-2">
+                                <b>Assignee: </b>
+                                { parentTask.assignee }
+                            </span>
                         </Col>
                     </Row>
                     <Row className="task-detail-row">
                         <Col md={ 4 }>
-                            <div>{ parentTask.estimatedTime }</div>
+                            <span className="mb-2">
+                                <b>Estimated Time: </b>
+                                { parentTask.estimatedTime }
+                            </span>
                         </Col>
                         <Col md={ 4 }>
-                            <div className="mb-2">{ parentTask.workedTime }</div>
+                            <div className="mb-2">
+                                <span className="mb-2">
+                                    <b>Worked Time: </b>
+                                    { parentTask.workedTime }
+                                </span>
+                            </div>
                         </Col>
                         <Col md={ 4 }>
-                            <div className="mb-2">{ parentTask.status }</div>
+                            <span className="mb-2">
+                                <b>Status: </b>
+                                { parentTask.status }
+                            </span>
                         </Col>
                     </Row>
                 </div>
-                <div className={ containerClassName }>
-                    { nodes }
-                </div>
+                <Collapse in={ !isCollapsed } timeout={ 100 }>
+                    <div className={ containerClassName }>
+                        { nodes }
+                    </div>
+                </Collapse>
             </Element>
         </div>
     );

@@ -16,10 +16,10 @@ import {
 import TaskModal from "../Modal";
 import Confirm from "../Confirm";
 import React, { useCallback } from "react";
-import ProjectTaskList from "./ProjectTaskList";
 import update from "immutability-helper";
 import { useDrop } from "react-dnd";
 import idGenerator from "../../helpers/idGenerator";
+import ProjectTasksTree from "./ProjectTasksTree";
 
 const ProjectDetail = () => {
     const dispatch = useDispatch();
@@ -45,14 +45,13 @@ const ProjectDetail = () => {
     const [{ isOver }, dropFoundTask] = useDrop(() => ({
         accept: FOUND_TASK,
         drop(item) {
-
             const updateChildrenIds = (childrenData, childId) => {
                 const newData = childrenData.map((value) => {
                     const { children } = value;
                     const newValue = { ...value, id: idGenerator(), parentId: childId };
 
                     if (children) {
-                        newValue.children = updateChildrenIds(value.children, newValue.id);
+                        newValue.children = updateChildrenIds(children, newValue.id);
                     }
                     return newValue;
                 });
@@ -159,13 +158,15 @@ const ProjectDetail = () => {
         return null;
     });
 
-    const taskList = tasks.map(task => {
+    const taskList = tasks.map((task, index) => {
         for (let i = 0; i < projectDetail.tasks.length; i++) {
             if (projectDetail.tasks[i] === task.id) {
-                return <ProjectTaskList
+                return <ProjectTasksTree
                     key={ task.id }
-                    task={ task }
-                    description={ task.description }
+                    parentTask={ task }
+                    moveTask={ moveTask }
+                    index={ index }
+                    id={ task.id }
                 />
             }
         }
@@ -178,10 +179,15 @@ const ProjectDetail = () => {
                 <div className={ style["banner"] }>
                     <h2>{ projectDetail && projectDetail.name }</h2>
                     <p>{ projectDetail && projectDetail.summary }</p>
-                    <div className={ style["add-task-row"] } onClick={ handleToggleTaskModal }>
+                    <div className={ style["add-task-row"] }
+                         onClick={ handleToggleTaskModal }
+                    >
                         <div className={ style["add-task-content"] }>
                             <span className="mr-1">Add Task</span>
-                            <img src={ addTaskIcon } alt="Add task" className={ style["add-task-icon"] }/>
+                            <img src={ addTaskIcon }
+                                 alt="Add task"
+                                 className={ style["add-task-icon"] }
+                            />
                         </div>
                     </div>
                 </div>
@@ -196,7 +202,6 @@ const ProjectDetail = () => {
                         md={ 6 }
                         className={ `${ style["tasks-details"] } ${ style["tasks-col"] }` }
                         ref={ dropFoundTask }
-
                     >
                         <div style={ getStyle(backgroundColor, boxShadow) }>
                             { taskTree }
