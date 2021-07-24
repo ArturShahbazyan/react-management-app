@@ -58,11 +58,15 @@ const ProjectDetail = () => {
                 return newData;
             };
 
-            const taskData = { ...item.task };
-            taskData.id = idGenerator();
+            let taskData = {
+                ...item.task,
+                children: [...item.task.children],
+                id:idGenerator(),
+            };
 
             if (taskData.children.length !== 0) {
                 taskData.children = taskData.children.map(child => {
+                    console.log(child);
                     return {
                         ...child,
                         id: idGenerator(),
@@ -73,7 +77,7 @@ const ProjectDetail = () => {
 
             taskData.children.map(child => {
                 child.children = updateChildrenIds(child.children, child.id);
-                return child.children;
+                return { ...child.children };
             });
 
             const taskId = taskData.id;
