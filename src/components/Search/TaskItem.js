@@ -8,7 +8,6 @@ import { FOUND_TASK } from "../../redux/actions/types";
 import "./TaskItem.css";
 
 const TaskItem = ({ task, id, index, moveFoundTask }) => {
-
     const ref = useRef(null);
 
     const [, drop] = useDrop({

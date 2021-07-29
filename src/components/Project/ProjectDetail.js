@@ -61,12 +61,11 @@ const ProjectDetail = () => {
             let taskData = {
                 ...item.task,
                 children: [...item.task.children],
-                id:idGenerator(),
+                id: idGenerator(),
             };
 
             if (taskData.children.length !== 0) {
                 taskData.children = taskData.children.map(child => {
-                    console.log(child);
                     return {
                         ...child,
                         id: idGenerator(),

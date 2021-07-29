@@ -21,6 +21,7 @@ export const TASK = "TASK";
 export const MOVE_TASK = "MOVE_TASK";
 export const SET_TASK_DETAIL = "SET_TASK_DETAIL";
 export const PROJECT_TASKS = "PROJECT_TASKS";
+export const SET_SEARCH_VALUE = "SET_SEARCH_VALUE";
 
 
 

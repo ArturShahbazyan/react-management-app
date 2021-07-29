@@ -1,7 +1,7 @@
 import { Col, FormControl, Row } from "react-bootstrap";
 import search from "../../assets/images/search.svg"
 import style from "./search.module.css"
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import TaskItem from "./TaskItem";
 import update from "immutability-helper";
@@ -21,16 +21,19 @@ const Search = () => {
         }));
     }, [foundTasks]);
 
+    useEffect(() => {
+        const filteredTasks = tasks.filter((taskItem) => {
+            return searchValue && taskItem.name.toLowerCase().includes(searchValue.toLowerCase());
+        });
+        searchValue ? setFoundTasks(filteredTasks) : setFoundTasks([]);
+
+    }, [setFoundTasks, searchValue, tasks]);
+
     const handleSetSearchValue = (e) => {
         setSearchValue(e.target.value);
-        setFoundTasks(tasks);
     };
 
-    const filteredTasks = foundTasks.filter((taskItem) => {
-        return searchValue && taskItem.name.toLowerCase().includes(searchValue.toLowerCase());
-    });
-
-    const taskList = filteredTasks.map((task, index) => {
+    const taskList = foundTasks.map((task, index) => {
         return <TaskItem
             moveFoundTask={ moveFoundTask }
             task={ task }
